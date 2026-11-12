@@ -174,6 +174,29 @@ flowchart TD
   F --> L["Xoá phiên hoặc xoá tất cả"]
 ```
 
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Thành viên | Sau câu trả lời `HOAN_TAT`, gõ câu hỏi tiếp |
+| 2 | Hệ thống | Kiểm tra phiên chưa đủ 10 lượt |
+| 3 | Trợ lý AI | Viết lại thành câu hỏi độc lập, truy xuất và lọc quyền lại như UC-19 |
+| 4 | Trợ lý AI | Trả lời có nguồn |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Mở **SCR-13** → Lịch sử | Danh sách phiên trong 30 ngày, chỉ của người dùng; mở phiên cũ thì kiểm tra lại quyền từng nguồn (BR-69) |
+| A2 | Xoá phiên hoặc xoá tất cả | Phiên bị xoá khỏi lịch sử |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Phiên đã đủ 10 lượt | MSG-53, gợi ý bắt đầu phiên mới |
+| E2 | Nguồn của phiên cũ không còn truy cập được | Nhãn MSG-54, ẩn đoạn trích |
+
 ### UC-21 Cập nhật chỉ mục theo thay đổi dữ liệu và quyền
 
 | **Mục** | **Nội dung** |
@@ -198,6 +221,29 @@ sequenceDiagram
   AI->>MS: Kiểm tra từng tin còn tồn tại
   AI->>PS: Kiểm tra can_view từng đoạn
 ```
+
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Dịch vụ tin nhắn | Tin mới hoặc tin sửa → tạo, cập nhật vector trong chỉ mục ≤ 5 phút |
+| 2 | Dịch vụ tin nhắn | Tin bị xoá → gỡ khỏi chỉ mục ≤ 5 phút |
+| 3 | Dịch vụ quyền | Kênh vào `ai_excluded` → gỡ cả kênh khỏi phạm vi AI |
+| 4 | Dịch vụ quyền | Thành viên rời kênh hoặc bị vô hiệu hoá → làm mới cache quyền |
+| 5 | Trợ lý AI | Mỗi câu hỏi: lấy danh sách hội thoại người hỏi xem được, chỉ truy vấn chỉ mục trong danh sách đó |
+| 6 | Trợ lý AI | Kiểm tra từng tin còn tồn tại và `can_view` từng đoạn trước khi dùng |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Chỉ mục chưa kịp cập nhật trong 5 phút | Bước 6 vẫn loại tin đã xoá và đoạn không còn quyền, nên câu trả lời không dùng dữ liệu cũ |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Chỉ mục không khả dụng | MSG-52, gợi ý dùng tìm kiếm thường |
 
 ## 6. Điểm vào
 
@@ -264,7 +310,7 @@ sequenceDiagram
   end
 ```
 
-**Map lỗi → thông báo** `[giả định]`
+**Map lỗi → thông báo**
 
 | **Nhóm lỗi** | **Message** |
 | --- | --- |
@@ -305,5 +351,6 @@ Bản EN: `[chờ bổ sung]`.
 | Dữ liệu | Không huấn luyện; lịch sử phiên 30 ngày; xoá khi người dùng bị vô hiệu hoá; nhật ký không chứa nội dung |
 | Chỉ mục | Độ trễ cập nhật ≤ 5 phút; giám sát số tin chưa vào chỉ mục |
 | Đánh giá chất lượng | Bộ câu hỏi kiểm thử có đáp án và nguồn đúng; chấm định kỳ độ chính xác, tỉ lệ "không tìm thấy" đúng |
+| Log / audit | Mỗi câu hỏi: người hỏi, phạm vi, số nguồn truy xuất và số nguồn bị loại do quyền, thời gian xử lý, trạng thái kết thúc; log vận hành không chứa nội dung câu hỏi và câu trả lời |
 | Tracking | Câu hỏi (phạm vi, ngôn ngữ), số đoạn, không tìm thấy, ngoài phạm vi, độ mới, mâu thuẫn, mở nguồn, phản hồi, hỏi tiếp, xoá phiên |
 | Accessibility | Câu trả lời đọc được bằng trình đọc màn hình kèm "Nguồn {n}"; trạng thái đang tìm được thông báo; cảnh báo có biểu tượng và chữ |

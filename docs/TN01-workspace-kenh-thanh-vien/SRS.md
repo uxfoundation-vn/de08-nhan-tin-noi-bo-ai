@@ -112,13 +112,35 @@ flowchart TD
   M --> N["Màn chào: gợi ý kênh theo tên miền, phòng ban"]
 ```
 
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Người tạo | Mở **SCR-01**, nhập tên, đường dẫn, tên miền email (BR-01) |
+| 2 | Hệ thống | Kiểm tra đường dẫn còn trống; tạo workspace và #chung, người tạo là Chủ sở hữu |
+| 3 | Người tạo | Mời bằng email: dán danh sách email, chọn vai trò (BR-03) |
+| 4 | Hệ thống | Gửi lời mời, tạo bản ghi `DA_MOI` |
+| 5 | Người được mời | Bấm link trong email, đăng nhập |
+| 6 | Hệ thống | Lời mời còn hiệu lực → thành viên `DANG_HOAT_DONG`, vào các kênh mặc định (BR-08) |
+| 7 | Hệ thống | Hiện màn chào kèm gợi ý kênh |
+
 **Luồng thay thế**
 
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
-| A1 | Quản trị thu hồi lời mời email chưa được chấp nhận | Ở **SCR-05**, dòng lời mời `DA_MOI` có nút Thu hồi; mã mời vô hiệu ngay, người nhận bấm link thấy MSG-02 `[giả định]` |
-| A2 | Thành viên tự rời workspace | Hồ sơ → Rời workspace, hỏi xác nhận; xử lý như vô hiệu hoá (BR-13), muốn vào lại cần lời mời mới. Chủ sở hữu phải chuyển nhượng quyền trước khi rời (BR-02) `[giả định]` |
+| A1 | Quản trị thu hồi lời mời email chưa được chấp nhận | Ở **SCR-05**, dòng lời mời `DA_MOI` có nút Thu hồi; mã mời vô hiệu ngay, người nhận bấm link thấy MSG-02 |
+| A2 | Thành viên tự rời workspace | Hồ sơ → Rời workspace, hỏi xác nhận; xử lý như vô hiệu hoá (BR-13), muốn vào lại cần lời mời mới. Chủ sở hữu phải chuyển nhượng quyền trước khi rời (BR-02) |
 | A3 | Người được mời đã là thành viên bị vô hiệu hoá | Không gửi lời mời; gợi ý quản trị Kích hoạt lại ở **SCR-05** |
+| A4 | Mời bằng link | Tạo link có hạn 7 ngày, 100 lượt (BR-04) |
+| A5 | Bật Tự tham gia theo tên miền | Người có email đúng tên miền tự vào được (BR-05) |
+| A6 | Danh sách có email lỗi | Đánh dấu email lỗi, vẫn gửi phần còn lại (MSG-12) |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Đường dẫn đã có người dùng | MSG-01 kèm gợi ý đường dẫn khác |
+| E2 | Lời mời hết hạn hoặc bị thu hồi | MSG-02 |
 
 ### UC-02 Tạo, tham gia, rời kênh
 
@@ -191,6 +213,28 @@ flowchart TD
   I --> J["Người không phải thành viên mất kênh khỏi tìm kiếm, AI"]
 ```
 
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Người tạo kênh hoặc quản trị | Mở **SCR-04** Thông tin kênh, chọn Lưu trữ |
+| 2 | Hệ thống | MSG-07 hỏi xác nhận |
+| 3 | Người tạo kênh hoặc quản trị | Xác nhận |
+| 4 | Hệ thống | Kênh `LUU_TRU`: chỉ đọc, có banner, vẫn tìm kiếm được |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Khôi phục kênh đã lưu trữ | Kênh về trạng thái trước khi lưu trữ |
+| A2 | Quản trị chọn Chuyển thành riêng tư | MSG-08 cảnh báo không đảo ngược → kênh `RIENG_TU` (BR-12); người không phải thành viên mất kênh khỏi tìm kiếm và phạm vi AI |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Không đủ quyền, hoặc kênh là #chung | Ẩn nút Lưu trữ, Chuyển thành riêng tư |
+
 ### UC-04 Vô hiệu hoá thành viên
 
 | **Mục** | **Nội dung** |
@@ -215,12 +259,37 @@ sequenceDiagram
   S->>S: Cập nhật danh sách mention, tên kèm đã vô hiệu hoá
 ```
 
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Quản trị | Ở **SCR-05**, chọn thành viên, bấm Vô hiệu hoá |
+| 2 | Hệ thống | Gọi \[MemberUpdate\]; thu hồi token, phiên, quyền (BR-13) |
+| 3 | Hệ thống | Cổng realtime ngắt mọi kết nối của thành viên |
+| 4 | Hệ thống | Thiết bị của thành viên xoá dữ liệu cache, về màn đăng nhập, hiện MSG-09 |
+| 5 | Hệ thống | Cập nhật danh sách mention; tên hiện kèm "đã vô hiệu hoá" |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Kích hoạt lại | Thành viên về `DANG_HOAT_DONG`, đăng nhập lại được |
+| A2 | Thành viên tự rời workspace | Xử lý như vô hiệu hoá; muốn vào lại cần lời mời mới |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Thành viên đích là Chủ sở hữu | Không có nút Vô hiệu hoá; phải chuyển nhượng quyền trước (BR-02) |
+
 ### UC-05 Cài đặt AI
 
 | **Mục** | **Nội dung** |
 | --- | --- |
 | Tiền điều kiện | Người thao tác là quản trị workspace |
 | Hậu điều kiện | `ai_enabled` và danh sách `ai_excluded` được lưu; AI ngừng đọc kênh bị loại trừ (BR-14) |
+
+**Luồng chính**
 
 | **Bước** | **Actor** | **Mô tả** |
 | --- | --- | --- |
@@ -313,7 +382,7 @@ Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (m�
 | \[AiSettingsSave\] | ai_enabled, ai_excluded | – | 5s / 2 lần |
 | \[PermissionCheck\] (nội bộ) | user_id, conversation_id | can_view, can_post | Dùng chung cho TN02–TN05 |
 
-**Map lỗi → thông báo** `[giả định]`
+**Map lỗi → thông báo**
 
 | **Nhóm lỗi** | **Message** |
 | --- | --- |

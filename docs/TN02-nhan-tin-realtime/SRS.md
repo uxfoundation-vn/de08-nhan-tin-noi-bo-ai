@@ -169,6 +169,31 @@ flowchart TD
   B --> J["Theo dõi, Bỏ theo dõi thread"]
 ```
 
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Thành viên | Ở một tin trong kênh, chọn Trả lời trong thread |
+| 2 | Hệ thống | Mở **SCR-07**: tin gốc và các trả lời |
+| 3 | Thành viên | Soạn trả lời, bấm Gửi |
+| 4 | Hệ thống | Gọi \[MessageSend\] kèm `parent_id` (BR-22) |
+| 5 | Hệ thống | Tin gốc trong kênh cập nhật số trả lời, ảnh người trả lời, lần trả lời cuối |
+| 6 | Hệ thống | Người trả lời tự theo dõi thread; người theo dõi nhận thông báo (SRS TN03) |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Chọn "Gửi kèm vào kênh" | Trả lời hiện thêm trong kênh, trỏ về thread |
+| A2 | Bấm Theo dõi hoặc Bỏ theo dõi | Bật, tắt thông báo của thread đó |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Gửi thất bại | Tin `LOI` với MSG-23: Thử lại hoặc Xoá |
+| E2 | Mất quyền trong hội thoại | MSG-16 |
+
 ### UC-08 Gửi file
 
 | **Mục** | **Nội dung** |
@@ -193,6 +218,32 @@ flowchart TD
   H -->|Không| J["Thay bằng MSG-17"]
   D -->|Huỷ| K["Huỷ tải lên, bỏ file khỏi tin"]
 ```
+
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Thành viên | Đính kèm: chọn file, chụp ảnh, hoặc kéo thả (Web) |
+| 2 | Hệ thống | Kiểm tra theo BR-23 |
+| 3 | Hệ thống | Gọi \[FileUploadInit\], tải lên theo khúc 5 MB, hiện thanh tiến trình từng file |
+| 4 | Hệ thống | Tải xong → quét mã độc |
+| 5 | Hệ thống | File sạch → gắn vào tin; xem trước ảnh, PDF |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Một khúc tải lỗi | Tự thử lại khúc đó, tiếp tục từ chỗ dừng |
+| A2 | Bấm Huỷ khi đang tải | Huỷ tải lên, bỏ file khỏi tin |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Quá 10 file | MSG-18 |
+| E2 | File quá 100 MB | MSG-19 |
+| E3 | Định dạng bị chặn | MSG-20 |
+| E4 | File không an toàn | Thay file bằng MSG-17 |
 
 ### UC-09 Đọc, đồng bộ và đã xem
 
@@ -220,6 +271,29 @@ sequenceDiagram
   end
 ```
 
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Thành viên | Mở hội thoại |
+| 2 | Hệ thống | Cuộn tới tin chưa đọc đầu tiên, hiện vạch "Tin mới" |
+| 3 | Hệ thống | Tin cuối hiện trên màn đủ 1 giây → gọi \[ReadMark\] với `last_read_seq` |
+| 4 | Hệ thống | Phát sự kiện tới thiết bị khác của người dùng: bỏ in đậm, bỏ badge |
+| 5 | Hệ thống | Tin nhắn trực tiếp, hai phía cùng bật đã xem → người kia thấy "Đã xem" |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Một trong hai phía tắt đã xem | Không phát trạng thái đã xem |
+| A2 | Nhóm nhỏ | Hiện ảnh nhỏ của những người đã xem |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Mất mạng khi đánh dấu đã đọc | Lưu trên máy, gửi \[ReadMark\] khi kết nối lại |
+
 ### UC-10 Sửa, xoá, reaction
 
 | **Mục** | **Nội dung** |
@@ -243,6 +317,29 @@ flowchart TD
   B -->|Reaction| K["Chọn emoji, bật tắt BR-26"]
   K --> L["Phát ReactionEvent"]
 ```
+
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Thành viên | Giữ lâu hoặc rê chuột vào tin của mình, chọn Sửa |
+| 2 | Thành viên | Sửa tại chỗ, bấm Lưu |
+| 3 | Hệ thống | Gọi \[MessageEdit\]: tin `DA_SUA`, phát tới mọi thiết bị |
+| 4 | Hệ thống | Mention mới thêm khi sửa → gửi thông báo (BR-24) |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Chọn Xoá | MSG-21 hỏi xác nhận → tin có thread thay bằng "Tin nhắn đã bị xoá", tin không có thread gỡ khỏi hội thoại |
+| A2 | Chọn Reaction | Chọn emoji để bật hoặc tắt (BR-26); phát tới mọi thiết bị |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Không phải tin của mình, hoặc quá 24 giờ | Ẩn Sửa |
+| E2 | Không phải tin của mình và không phải quản trị | Ẩn Xoá |
 
 ## 6. Điểm vào
 
@@ -304,7 +401,7 @@ flowchart TD
 | \[ReadMark\] | conversation_id hoặc thread_id, last_read_seq | – | 3s / gộp và gửi lại |
 | \[DraftSave\] | conversation_id, thread_id, text | – | 3s / ghi đè lần sau |
 
-**Map lỗi → thông báo** `[giả định]`
+**Map lỗi → thông báo**
 
 | **Nhóm lỗi** | **Message** |
 | --- | --- |
@@ -342,5 +439,6 @@ Bản EN: `[chờ bổ sung]`.
 | Tin cậy | Không mất, không trùng tin (BR-17, BR-20); thứ tự theo `seq`; lấy bù sau kết nối lại |
 | Bảo mật | Mã hoá khi truyền và khi lưu; mọi API kiểm tra BR-10, BR-15; link file có hạn và gắn quyền |
 | Offline | Đọc tin đã cache, soạn và xếp hàng khi mất mạng |
+| Log / audit | Mỗi lần sửa, xoá tin: người thực hiện, thời điểm; lỗi gửi và mỗi lần kết nối lại kèm mã lỗi; không ghi nội dung tin vào log |
 | Tracking | Độ trễ gửi, lỗi gửi, hàng đợi ngoại tuyến, thread, file (dung lượng, lỗi), sửa, xoá, reaction, độ trễ đồng bộ đọc |
 | Accessibility | Trạng thái gửi có nhãn đọc màn hình; tin mới được thông báo bằng vùng live; định dạng code có tương phản đủ ở chế độ tối |

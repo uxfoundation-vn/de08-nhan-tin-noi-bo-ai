@@ -151,12 +151,37 @@ flowchart TD
   G --> K
 ```
 
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Thành viên | Mở **SCR-10** Cài đặt thông báo |
+| 2 | Thành viên | Bật, tắt thông báo mặc định cho tin trực tiếp, mention, thread |
+| 3 | Hệ thống | Gọi \[NotificationPrefsGet\] và lưu thay đổi; áp dụng ngay trên mọi thiết bị |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Đặt mức theo kênh | Chọn kênh và mức thông báo (BR-32) |
+| A2 | Đặt giờ yên lặng | Chọn khoảng giờ theo ngày trong tuần (BR-35) |
+| A3 | Ẩn nội dung trên màn khoá, cho phép "Vẫn thông báo" | Bật, tắt từng mục (BR-42) |
+| A4 | Tạm dừng nhanh từ biểu tượng chuông | Chọn 30 phút, 1 giờ, 2 giờ, tới sáng mai → hiện MSG-30 kèm nút Tiếp tục nhận |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Lưu thất bại | Báo lỗi, giữ giá trị cũ, cho thử lại |
+
 ### UC-13 Trang Hoạt động
 
 | **Mục** | **Nội dung** |
 | --- | --- |
 | Tiền điều kiện | Thành viên đã đăng nhập |
 | Hậu điều kiện | Mục đã xem được đánh dấu; badge Hoạt động giảm tương ứng |
+
+**Luồng chính**
 
 | **Bước** | **Actor** | **Mô tả** |
 | --- | --- | --- |
@@ -187,6 +212,30 @@ flowchart TD
   M -->|Có| N["Push vượt chặn, ghi lượt"]
   M -->|Không| O["MSG-26"]
 ```
+
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Thành viên | **SCR-11** Hồ sơ → Đặt trạng thái |
+| 2 | Thành viên | Chọn mẫu hoặc tự gõ, chọn thời điểm hết hạn (BR-41) |
+| 3 | Hệ thống | Gọi \[StatusSet\]; phát \[PresenceEvent\] tới người cùng workspace |
+| 4 | Người gửi | Mở tin nhắn trực tiếp với thành viên đó |
+| 5 | Hệ thống | Ô soạn hiện trạng thái tuỳ chỉnh (MSG-32) |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Bật Không làm phiền kèm thời hạn | Trạng thái `KHONG_LAM_PHIEN`, chặn push (BR-34) |
+| A2 | Người nhận đang trong giờ yên lặng, tạm dừng hoặc Không làm phiền | Ô soạn hiện MSG-25; gửi bình thường thì người nhận thấy khi hết chặn |
+| A3 | Người gửi chọn "Vẫn thông báo" | Người nhận cho phép và còn lượt trong ngày → push vượt chặn, ghi lượt |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Hết lượt "Vẫn thông báo", hoặc người nhận không cho phép | MSG-26; tin vẫn gửi nhưng không push |
 
 ## 6. Điểm vào
 
@@ -269,7 +318,7 @@ sequenceDiagram
   NS->>P: Gỡ thông báo BR-38
 ```
 
-**Map lỗi → thông báo** `[giả định]`
+**Map lỗi → thông báo**
 
 | **Nhóm lỗi** | **Message** |
 | --- | --- |
@@ -300,5 +349,6 @@ Bản EN: `[chờ bổ sung]`.
 | Tin cậy | Không gửi trùng thông báo cho một sự kiện; gỡ thông báo đã đọc ≤ 5 giây |
 | Riêng tư | Không lưu lịch sử trạng thái online; người ngoài workspace không thấy trạng thái; ẩn nội dung trên màn khoá |
 | Thời gian | Giờ yên lặng theo múi giờ người nhận, tự cập nhật khi thiết bị đổi múi giờ |
+| Log / audit | Mỗi thông báo: lý do gửi hoặc không gửi (mức kênh, giờ yên lặng, đang dùng máy tính), kênh gửi, kết quả; mỗi lần dùng "Vẫn thông báo" |
 | Tracking | Push gửi, mở, gộp; push bị chặn bởi giờ yên lặng; định tuyến máy tính; vượt giờ yên lặng; đặt trạng thái; tắt thông báo kênh |
 | Accessibility | Trạng thái online có nhãn chữ, không chỉ màu chấm; thông báo có nội dung đọc được bằng trình đọc màn hình |

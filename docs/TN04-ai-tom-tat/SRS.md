@@ -143,7 +143,7 @@ flowchart TD
 | A3 | Có tin mới trong lúc đang xem tóm tắt | Banner "Có {n} tin mới sau tóm tắt" + Cập nhật |
 | A4 | Bấm Dừng khi đang tạo | `DA_HUY`; không tính lượt `[giả định]` |
 | A5 | Người dùng mất quyền kênh trong lúc tạo | Huỷ kết quả, MSG-40 |
-| A6 | Mở lại tóm tắt đã lưu (BR-54) khi tin được trích đã bị xoá, hoặc người dùng không còn quyền xem tin đó | Kiểm tra lại quyền từng trích dẫn khi mở: trích dẫn hỏng hiện "Tin không còn khả dụng", không hiện đoạn trích; mục giữ nguyên kèm nhãn "Nguồn không còn". Mất quyền cả hội thoại → không mở được tóm tắt, MSG-40 `[giả định]` |
+| A6 | Mở lại tóm tắt đã lưu (BR-54) khi tin được trích đã bị xoá, hoặc người dùng không còn quyền xem tin đó | Kiểm tra lại quyền từng trích dẫn khi mở: trích dẫn hỏng hiện "Tin không còn khả dụng", không hiện đoạn trích; mục giữ nguyên kèm nhãn "Nguồn không còn". Mất quyền cả hội thoại → không mở được tóm tắt, MSG-40 |
 
 **Luồng lỗi**
 
@@ -159,6 +159,8 @@ flowchart TD
 | --- | --- |
 | Tiền điều kiện | Thoả BR-43; người dùng xem được thread |
 | Hậu điều kiện | Tóm tắt thread chỉ người yêu cầu thấy, hoặc một trạng thái kết thúc khác ở mục 4.1 |
+
+**Luồng chính**
 
 | **Bước** | **Actor** | **Mô tả** |
 | --- | --- | --- |
@@ -182,6 +184,28 @@ flowchart TD
   E --> F["Đánh dấu đã đọc, sang hội thoại tiếp theo"]
   B -->|Không có| G["MSG-42 đã theo kịp"]
 ```
+
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Thành viên | Thanh bên → Tóm tắt |
+| 2 | Hệ thống | Hiện danh sách hội thoại thoả BR-43 có từ 10 tin chưa đọc, sắp theo số mention của người dùng rồi số tin chưa đọc |
+| 3 | Thành viên | Chạm một hội thoại |
+| 4 | Hệ thống | Chạy UC-15, hiện kết quả trong bảng **SCR-12** |
+| 5 | Thành viên | Bấm Đánh dấu đã đọc, sang hội thoại tiếp theo |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Không có hội thoại nào đủ điều kiện | MSG-42 |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Tóm tắt một hội thoại thất bại | Hiện lỗi của hội thoại đó theo UC-15 (MSG-38, MSG-41); các hội thoại khác không bị ảnh hưởng |
 
 ### UC-18 Chống chèn lệnh và giữ ranh giới dữ liệu
 
@@ -209,6 +233,31 @@ sequenceDiagram
   A->>A: Loại mục có mã ngoài tập hợp lệ, bỏ mọi yêu cầu hành động
   A-->>U: Tóm tắt có trích dẫn, nhãn AI
 ```
+
+**Luồng chính**
+
+| **Bước** | **Actor** | **Mô tả** |
+| --- | --- | --- |
+| 1 | Thành viên | Yêu cầu tóm tắt một kênh hoặc thread |
+| 2 | Trợ lý AI | Hỏi dịch vụ quyền: `can_view`, `ai_excluded` |
+| 3 | Trợ lý AI | Lấy tin theo phạm vi, rồi lọc từng tin theo quyền hiện tại của người yêu cầu (BR-46) |
+| 4 | Trợ lý AI | Gửi cho mô hình: chỉ dẫn hệ thống, và các tin được đánh dấu là dữ liệu kèm mã m1…mn |
+| 5 | Mô hình | Trả các mục kèm mã tham chiếu |
+| 6 | Trợ lý AI | Loại mục có mã ngoài tập hợp lệ, bỏ mọi yêu cầu hành động có trong tin |
+| 7 | Trợ lý AI | Trả tóm tắt có trích dẫn và nhãn AI |
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Tin nhắn chứa câu yêu cầu AI làm việc khác | Coi là nội dung cần tóm tắt, không thực hiện |
+
+**Luồng lỗi**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| E1 | Người yêu cầu không có quyền, hoặc kênh bị loại trừ | Dừng ở bước 2, MSG-40 |
+| E2 | Không còn mục nào hợp lệ sau khi kiểm tra trích dẫn | MSG-38 |
 
 ## 6. Điểm vào
 
@@ -246,7 +295,7 @@ sequenceDiagram
 | \[CitationResolve\] | summary_id, ref | conversation_id, message_id, seq (kiểm tra lại `can_view`) | 2s / 1 lần |
 | \[LlmGenerate\] (nội bộ) | system, data (tin có mã), schema | Mục có cấu trúc | 25s / 1 lần theo BR-49 |
 
-**Map lỗi → thông báo** `[giả định]`
+**Map lỗi → thông báo**
 
 | **Nhóm lỗi** | **Message** |
 | --- | --- |
@@ -282,5 +331,6 @@ Bản EN: `[chờ bổ sung]`.
 | An toàn AI | Chống chèn lệnh: tin là dữ liệu, mô hình không có công cụ hành động; kiểm tra trích dẫn (BR-49) |
 | Dữ liệu | Nhà cung cấp mô hình không lưu, không huấn luyện; tóm tắt lưu 7 ngày; xoá khi người dùng bị vô hiệu hoá |
 | Đánh giá chất lượng | Bộ dữ liệu kiểm thử nội bộ 200 hội thoại mẫu, chấm định kỳ độ chính xác và trích dẫn |
+| Log / audit | Mỗi yêu cầu tóm tắt: người yêu cầu, hội thoại, số tin đầu vào, thời gian xử lý, kết quả kiểm tra trích dẫn, trạng thái kết thúc; log vận hành không chứa nội dung tin và nội dung tóm tắt |
 | Tracking | Yêu cầu (phạm vi, số tin), bộ nhớ đệm, thời gian, lỗi, tỉ lệ mục bị loại, bấm trích dẫn, phản hồi, tạo lại |
 | Accessibility | Trạng thái đang tạo được thông báo; trích dẫn có nhãn "Nguồn {n}: tin của {người} lúc {giờ}"; không chỉ dùng màu cho nhãn liên quan |
