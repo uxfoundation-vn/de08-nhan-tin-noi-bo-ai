@@ -87,6 +87,9 @@ stateDiagram-v2
   MAT_KET_NOI --> DANG_KET_NOI : Thử lại 1, 2, 5, 10, 30 giây
   DA_KET_NOI --> DONG_BO : Sau kết nối lại
   DONG_BO --> DA_KET_NOI : Lấy bù tin xong BR-30
+  DONG_BO --> MAT_KET_NOI : Rớt mạng khi đang lấy bù
+  DANG_KET_NOI --> MAT_KET_NOI : Bắt tay thất bại, máy chủ không phản hồi
+  DANG_KET_NOI --> [*] : Phiên hết hạn hoặc bị thu hồi, về màn đăng nhập
   DA_KET_NOI --> NGAT_O_NEN : App xuống nền quá 30 giây
   NGAT_O_NEN --> DANG_KET_NOI : App trở lại
 ```

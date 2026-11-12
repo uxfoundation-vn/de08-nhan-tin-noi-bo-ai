@@ -57,6 +57,8 @@ stateDiagram-v2
   THU_THAP --> DANG_TAO : Đã lọc quyền BR-46
   DANG_TAO --> DANG_HIEN_DAN : Có phần đầu tiên
   DANG_HIEN_DAN --> KIEM_TRA_TRICH_DAN : Mô hình trả xong
+  DANG_HIEN_DAN --> DA_HUY : Người dùng dừng
+  DANG_HIEN_DAN --> LOI : Mất mạng, lỗi mô hình giữa chừng
   KIEM_TRA_TRICH_DAN --> HOAN_TAT : Đạt BR-49
   KIEM_TRA_TRICH_DAN --> DANG_TAO : Quá 30% mục lỗi, tạo lại 1 lần
   KIEM_TRA_TRICH_DAN --> LOI : Vẫn lỗi
@@ -141,6 +143,7 @@ flowchart TD
 | A3 | Có tin mới trong lúc đang xem tóm tắt | Banner "Có {n} tin mới sau tóm tắt" + Cập nhật |
 | A4 | Bấm Dừng khi đang tạo | `DA_HUY`; không tính lượt `[giả định]` |
 | A5 | Người dùng mất quyền kênh trong lúc tạo | Huỷ kết quả, MSG-40 |
+| A6 | Mở lại tóm tắt đã lưu (BR-54) khi tin được trích đã bị xoá, hoặc người dùng không còn quyền xem tin đó | Kiểm tra lại quyền từng trích dẫn khi mở: trích dẫn hỏng hiện "Tin không còn khả dụng", không hiện đoạn trích; mục giữ nguyên kèm nhãn "Nguồn không còn". Mất quyền cả hội thoại → không mở được tóm tắt, MSG-40 `[giả định]` |
 
 **Luồng lỗi**
 

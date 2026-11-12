@@ -56,6 +56,8 @@ stateDiagram-v2
   HOAT_DONG --> KHONG_LAM_PHIEN : Bật Không làm phiền
   VANG_MAT --> KHONG_LAM_PHIEN : Bật Không làm phiền
   KHONG_LAM_PHIEN --> HOAT_DONG : Hết hạn hoặc tắt
+  KHONG_LAM_PHIEN --> NGOAI_TUYEN : Đóng mọi thiết bị
+  NGOAI_TUYEN --> KHONG_LAM_PHIEN : Mở app khi Không làm phiền còn hạn
   HOAT_DONG --> NGOAI_TUYEN : Đóng mọi thiết bị
   VANG_MAT --> NGOAI_TUYEN : Đóng mọi thiết bị
 ```

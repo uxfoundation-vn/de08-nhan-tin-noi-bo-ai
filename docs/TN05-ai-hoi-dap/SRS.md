@@ -58,6 +58,7 @@ stateDiagram-v2
   PHAN_LOAI --> TRUY_XUAT : Câu hỏi về workspace
   TRUY_XUAT --> KHONG_TIM_THAY : Không đoạn nào vượt ngưỡng BR-62
   TRUY_XUAT --> DANG_TRA_LOI : Có đoạn liên quan, đã lọc quyền
+  TRUY_XUAT --> LOI : Chỉ mục không khả dụng
   DANG_TRA_LOI --> KIEM_TRA_NGUON : Mô hình trả xong
   KIEM_TRA_NGUON --> KHONG_TIM_THAY : Không còn câu có nguồn BR-64
   KIEM_TRA_NGUON --> HOAN_TAT : Đạt

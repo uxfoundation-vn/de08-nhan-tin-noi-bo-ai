@@ -55,6 +55,8 @@ stateDiagram-v2
   DA_MOI --> DANG_HOAT_DONG : Chấp nhận lời mời
   DA_MOI --> HET_HAN : Quá 7 ngày
   HET_HAN --> DA_MOI : Gửi lại
+  DA_MOI --> [*] : Quản trị thu hồi lời mời
+  DANG_HOAT_DONG --> DA_VO_HIEU : Thành viên tự rời workspace
   [*] --> DANG_HOAT_DONG : Tự tham gia theo tên miền, link mời
   DANG_HOAT_DONG --> DA_VO_HIEU : Quản trị vô hiệu hoá
   DA_VO_HIEU --> DANG_HOAT_DONG : Kích hoạt lại
@@ -104,6 +106,14 @@ flowchart TD
   L -->|Có| M["DANG_HOAT_DONG, vào kênh mặc định BR-08"]
   M --> N["Màn chào: gợi ý kênh theo tên miền, phòng ban"]
 ```
+
+**Luồng thay thế**
+
+| **Mã** | **Điều kiện** | **Xử lý** |
+| --- | --- | --- |
+| A1 | Quản trị thu hồi lời mời email chưa được chấp nhận | Ở **SCR-05**, dòng lời mời `DA_MOI` có nút Thu hồi; mã mời vô hiệu ngay, người nhận bấm link thấy MSG-02 `[giả định]` |
+| A2 | Thành viên tự rời workspace | Hồ sơ → Rời workspace, hỏi xác nhận; xử lý như vô hiệu hoá (BR-13), muốn vào lại cần lời mời mới. Chủ sở hữu phải chuyển nhượng quyền trước khi rời (BR-02) `[giả định]` |
+| A3 | Người được mời đã là thành viên bị vô hiệu hoá | Không gửi lời mời; gợi ý quản trị Kích hoạt lại ở **SCR-05** |
 
 ### UC-02 Tạo, tham gia, rời kênh
 
@@ -216,6 +226,21 @@ sequenceDiagram
 | Hồ sơ → Quản trị workspace | **SCR-05**, UC-04, UC-05 | Chỉ quản trị |
 
 ## 7. Mô tả màn hình
+
+### SCR-01 Tạo workspace, mời thành viên
+
+| **#** | **Thành phần** | **Loại** | **Hành vi** |
+| --- | --- | --- | --- |
+| 1 | Tên workspace | Text | 2–50 ký tự (BR-01) |
+| 2 | Đường dẫn | Text có tiền tố | Tự gợi ý từ tên; kiểm tra trùng khi gõ; trùng → MSG-01 kèm gợi ý |
+| 3 | Tên miền email công ty | Chips nhập | 0–3 tên miền (BR-01); dùng cho Tự tham gia (BR-05) |
+| 4 | Tạo workspace | Button | Disabled tới khi mục 1, 2 hợp lệ |
+| 5 | Mời bằng email | Ô dán nhiều email + chọn vai trò | BR-03; email lỗi được đánh dấu, phần còn lại vẫn gửi |
+| 6 | Link mời | Button sao chép | Hiện hạn 7 ngày, 100 lượt (BR-04) |
+| 7 | Tự tham gia theo tên miền | Toggle | Chỉ bật được khi đã khai báo tên miền (BR-05) |
+| 8 | Bỏ qua, mời sau | Button text | Vào thẳng #chung; mời tiếp ở **SCR-05** |
+
+Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (mục 5–8).
 
 ### SCR-02 Thanh bên
 
