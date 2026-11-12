@@ -157,7 +157,7 @@ flowchart TD
 | --- | --- | --- |
 | 1 | Thành viên | Mở **SCR-10** Cài đặt thông báo |
 | 2 | Thành viên | Bật, tắt thông báo mặc định cho tin trực tiếp, mention, thread |
-| 3 | Hệ thống | Gọi \[NotificationPrefsGet\] và lưu thay đổi; áp dụng ngay trên mọi thiết bị |
+| 3 | Hệ thống | Gọi \[NotificationPrefsSave\]; áp dụng ngay trên mọi thiết bị |
 
 **Luồng thay thế**
 
@@ -165,7 +165,7 @@ flowchart TD
 | --- | --- | --- |
 | A1 | Đặt mức theo kênh | Chọn kênh và mức thông báo (BR-32) |
 | A2 | Đặt giờ yên lặng | Chọn khoảng giờ theo ngày trong tuần (BR-35) |
-| A3 | Ẩn nội dung trên màn khoá, cho phép "Vẫn thông báo" | Bật, tắt từng mục (BR-42) |
+| A3 | Ẩn nội dung trên màn khoá; cho phép "Vẫn thông báo" (BR-42) | Bật, tắt từng mục |
 | A4 | Tạm dừng nhanh từ biểu tượng chuông | Chọn 30 phút, 1 giờ, 2 giờ, tới sáng mai → hiện MSG-30 kèm nút Tiếp tục nhận |
 
 **Luồng lỗi**
@@ -235,7 +235,7 @@ flowchart TD
 
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
-| E1 | Hết lượt "Vẫn thông báo", hoặc người nhận không cho phép | MSG-26; tin vẫn gửi nhưng không push |
+| E1 | Hết lượt "Vẫn thông báo", hoặc người nhận không cho phép | MSG-26 |
 
 ## 6. Điểm vào
 

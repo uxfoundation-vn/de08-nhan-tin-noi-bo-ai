@@ -278,7 +278,7 @@ sequenceDiagram
 | 1 | Thành viên | Mở hội thoại |
 | 2 | Hệ thống | Cuộn tới tin chưa đọc đầu tiên, hiện vạch "Tin mới" |
 | 3 | Hệ thống | Tin cuối hiện trên màn đủ 1 giây → gọi \[ReadMark\] với `last_read_seq` |
-| 4 | Hệ thống | Phát sự kiện tới thiết bị khác của người dùng: bỏ in đậm, bỏ badge |
+| 4 | Hệ thống | Phát `ReadEvent` tới thiết bị khác của người dùng: bỏ in đậm, bỏ badge |
 | 5 | Hệ thống | Tin nhắn trực tiếp, hai phía cùng bật đã xem → người kia thấy "Đã xem" |
 
 **Luồng thay thế**
@@ -324,7 +324,7 @@ flowchart TD
 | --- | --- | --- |
 | 1 | Thành viên | Giữ lâu hoặc rê chuột vào tin của mình, chọn Sửa |
 | 2 | Thành viên | Sửa tại chỗ, bấm Lưu |
-| 3 | Hệ thống | Gọi \[MessageEdit\]: tin `DA_SUA`, phát tới mọi thiết bị |
+| 3 | Hệ thống | Gọi \[MessageEdit\]: tin `DA_SUA`, phát sự kiện `MessageEdited` tới mọi thiết bị |
 | 4 | Hệ thống | Mention mới thêm khi sửa → gửi thông báo (BR-24) |
 
 **Luồng thay thế**
@@ -332,7 +332,7 @@ flowchart TD
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
 | A1 | Chọn Xoá | MSG-21 hỏi xác nhận → tin có thread thay bằng "Tin nhắn đã bị xoá", tin không có thread gỡ khỏi hội thoại |
-| A2 | Chọn Reaction | Chọn emoji để bật hoặc tắt (BR-26); phát tới mọi thiết bị |
+| A2 | Chọn Reaction | Chọn emoji để bật hoặc tắt (BR-26); phát sự kiện `ReactionEvent` tới mọi thiết bị |
 
 **Luồng lỗi**
 
