@@ -138,6 +138,8 @@ AC05: Định dạng đậm, nghiêng, code, link; mention @người, @kênh (@k
 
 #### US1.2 Gửi file
 
+User Story: Là thành viên, tôi muốn gửi file, ảnh để chia sẻ tài liệu ngay trong hội thoại.
+
 AC01: Đính kèm từ máy, chụp ảnh, kéo thả (Web); tối đa 10 file, 100 MB mỗi file.
 
 AC02: Thanh tiến trình tải lên; huỷ được; lỗi thì thử lại từ chỗ dừng.
@@ -166,6 +168,8 @@ AC03: Reaction emoji; chạm để xem ai đã thả.
 
 #### US4.1 Đọc tiếp đúng chỗ
 
+User Story: Là thành viên, tôi muốn đọc trên một thiết bị thì thiết bị kia cũng biết để không đọc lại và không nhận thông báo thừa.
+
 AC01: Mở hội thoại → cuộn tới tin chưa đọc đầu tiên, có vạch "Tin mới".
 
 AC02: Đọc trên một thiết bị → thiết bị khác bỏ in đậm, bỏ badge ≤ 3 giây.
@@ -173,6 +177,8 @@ AC02: Đọc trên một thiết bị → thiết bị khác bỏ in đậm, b�
 AC03: Bản nháp đồng bộ giữa thiết bị.
 
 #### US4.2 Đã xem trong tin nhắn trực tiếp
+
+User Story: Là thành viên, tôi muốn biết người kia đã xem tin nhắn trực tiếp chưa để không phải nhắc lại.
 
 AC01: Tin nhắn 1-1 hiện "Đã xem" dưới tin cuối người kia đã đọc.
 

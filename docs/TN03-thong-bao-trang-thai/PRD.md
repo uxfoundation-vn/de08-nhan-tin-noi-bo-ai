@@ -130,6 +130,8 @@ AC03: Tắt một cuộc trò chuyện trực tiếp được.
 
 #### US1.2 Giờ yên lặng và tạm dừng
 
+User Story: Là thành viên, tôi muốn đặt giờ yên lặng và tạm dừng thông báo để không bị làm phiền ngoài giờ.
+
 AC01: Đặt giờ yên lặng theo ngày trong tuần; mặc định theo bảng mục 5.
 
 AC02: Tạm dừng nhanh 30 phút, 1 giờ, 2 giờ, tới sáng mai.
@@ -164,6 +166,8 @@ AC03: Mục chưa xem in đậm; đánh dấu đã xem tất cả.
 
 #### US4.1 Online, vắng mặt, không làm phiền
 
+User Story: Là thành viên, tôi muốn thấy ai đang hoạt động, vắng mặt hay không làm phiền để biết khi nào nên nhắn.
+
 AC01: Chấm trạng thái cạnh tên: Đang hoạt động, Vắng mặt, Không làm phiền; chỉ hiện với người cùng workspace.
 
 AC02: Vắng mặt tự động sau 10 phút không hoạt động trên mọi thiết bị.
@@ -172,6 +176,8 @@ AC03: Không làm phiền = tạm dừng thông báo + hiện trạng thái cho 
 
 #### US4.2 Trạng thái tuỳ chỉnh
 
+User Story: Là thành viên, tôi muốn đặt trạng thái như "Đang họp tới 15:00" để người khác biết khi nào tôi trả lời.
+
 AC01: Chọn mẫu (Đang họp, Đang di chuyển, Nghỉ ốm, Nghỉ phép, Làm việc từ xa) hoặc tự gõ; chọn thời hạn.
 
 AC02: Trạng thái hiện cạnh tên ở hội thoại, hồ sơ và ngay trên ô soạn tin nhắn trực tiếp.
@@ -179,6 +185,8 @@ AC02: Trạng thái hiện cạnh tên ở hội thoại, hồ sơ và ngay trê
 AC03: Hết hạn tự xoá.
 
 #### US4.3 Người gửi biết người nhận ngoài giờ
+
+User Story: Là thành viên, tôi muốn biết người nhận đang ngoài giờ trước khi nhắn để không làm phiền khi việc không gấp.
 
 AC01: Nhắn tin trực tiếp cho người đang trong giờ yên lặng → ô soạn hiện "{tên} đang ngoài giờ làm việc, sẽ nhận thông báo lúc {giờ}".
 

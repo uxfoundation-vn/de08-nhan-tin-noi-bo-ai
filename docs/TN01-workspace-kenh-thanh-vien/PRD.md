@@ -146,6 +146,8 @@ AC05: Rời kênh bất kỳ lúc nào trừ #chung.
 
 #### US2.2 Quản lý kênh
 
+User Story: Là người tạo kênh hoặc quản trị, tôi muốn sửa thông tin và lưu trữ kênh để danh sách kênh gọn, đúng mục đích.
+
 AC01: Người tạo kênh và quản trị sửa tên, mô tả, chủ đề.
 
 AC02: Lưu trữ kênh → không gửi tin mới, vẫn đọc và tìm được; khôi phục được.

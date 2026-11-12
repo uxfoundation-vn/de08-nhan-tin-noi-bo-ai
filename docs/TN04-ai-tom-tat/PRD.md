@@ -132,6 +132,8 @@ AC06: Có "Đánh dấu đã đọc" sau khi xem tóm tắt.
 
 #### US1.2 Tóm tắt theo khoảng thời gian
 
+User Story: Là thành viên, tôi muốn tóm tắt theo khoảng thời gian mình chọn để theo kịp đúng phần đã bỏ lỡ.
+
 AC01: Chọn: Tin chưa đọc (mặc định), Hôm nay, 7 ngày qua.
 
 AC02: Vượt 500 tin → tóm tắt 500 tin gần nhất, báo rõ.

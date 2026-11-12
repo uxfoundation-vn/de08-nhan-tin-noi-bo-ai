@@ -135,6 +135,8 @@ AC04: Câu hỏi 3–500 ký tự.
 
 #### US2.1 Câu trả lời có nguồn
 
+User Story: Là thành viên, tôi muốn thấy nguồn của từng câu trả lời để kiểm tra và tin tưởng.
+
 AC01: Câu trả lời ngắn (≤ 150 từ mặc định), hiện dần.
 
 AC02: Mỗi câu khẳng định có trích dẫn [n]; chạm xem trước, mở tin gốc.
@@ -144,6 +146,8 @@ AC03: Danh sách nguồn dưới câu trả lời: kênh (khoá nếu riêng tư
 AC04: Nhãn "Do AI tạo từ tin nhắn bạn có quyền xem · có thể sai sót".
 
 #### US2.2 Khi không chắc chắn
+
+User Story: Là thành viên, tôi muốn được báo khi không tìm thấy hoặc thông tin đã cũ để không dùng thông tin sai.
 
 AC01: Không có nguồn đủ liên quan → "Mình không tìm thấy thông tin này trong các tin bạn xem được", gợi ý kênh hoặc người có thể biết (chỉ từ hội thoại người hỏi xem được).
 
