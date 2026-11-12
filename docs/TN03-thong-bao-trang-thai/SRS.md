@@ -129,6 +129,11 @@ flowchart TD
 
 ### UC-12 Cài đặt thông báo, giờ yên lặng, tạm dừng
 
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Thành viên đã đăng nhập |
+| Hậu điều kiện | Cài đặt lưu theo tài khoản, áp dụng cho mọi thiết bị |
+
 ```mermaid
 flowchart TD
   A["SCR-10 Cài đặt thông báo"] --> B{"Mục"}
@@ -148,6 +153,11 @@ flowchart TD
 
 ### UC-13 Trang Hoạt động
 
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Thành viên đã đăng nhập |
+| Hậu điều kiện | Mục đã xem được đánh dấu; badge Hoạt động giảm tương ứng |
+
 | **Bước** | **Actor** | **Mô tả** |
 | --- | --- | --- |
 | 1 | Thành viên | Thanh bên → Hoạt động |
@@ -156,6 +166,11 @@ flowchart TD
 | 4 | Thành viên | "Đánh dấu đã xem tất cả" |
 
 ### UC-14 Đặt trạng thái và cảnh báo ngoài giờ
+
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Thành viên đã đăng nhập |
+| Hậu điều kiện | Trạng thái hiện với người cùng workspace tới khi hết hạn; người gửi tin thấy cảnh báo ngoài giờ |
 
 ```mermaid
 flowchart TD
@@ -175,14 +190,14 @@ flowchart TD
 
 ## 6. Điểm vào
 
-| **Điểm vào** | **Dẫn tới** | **Ghi chú** |
-| --- | --- | --- |
-| Thanh bên → Hoạt động | UC-13, **SCR-09** | Badge số mục chưa xem |
-| Thanh bên → chuông | Tạm dừng nhanh | |
-| Hồ sơ → Cài đặt thông báo | UC-12, **SCR-10** | |
-| Thông tin kênh → Thông báo | Mức kênh | |
-| Ảnh đại diện của mình | **SCR-11**, UC-14 | |
-| Lần đầu dùng app | Gợi ý giờ yên lặng | |
+| **Điểm vào** | **Web** | **App** | **Dẫn tới** | **Ghi chú** |
+| --- | --- | --- | --- | --- |
+| Thanh bên → Hoạt động | ✓ | ✓ | UC-13, **SCR-09** | Badge số mục chưa xem |
+| Thanh bên → chuông | ✓ | ✓ | Tạm dừng nhanh |  |
+| Hồ sơ → Cài đặt thông báo | ✓ | ✓ | UC-12, **SCR-10** |  |
+| Thông tin kênh → Thông báo | ✓ | ✓ | Mức kênh |  |
+| Ảnh đại diện của mình | ✓ | ✓ | **SCR-11**, UC-14 |  |
+| Lần đầu dùng app | ✓ | ✓ | Gợi ý giờ yên lặng |  |
 
 ## 7. Mô tả màn hình
 
@@ -253,6 +268,14 @@ sequenceDiagram
   MS->>NS: Đã đọc tới seq
   NS->>P: Gỡ thông báo BR-38
 ```
+
+**Map lỗi → thông báo** `[giả định]`
+
+| **Nhóm lỗi** | **Message** |
+| --- | --- |
+| Hết lượt "Vẫn thông báo" trong ngày | MSG-26 |
+| Lưu cài đặt thông báo, trạng thái thất bại | Thông báo lỗi chung của app (ngoài bộ MSG của SRS này), cho thử lại; giữ giá trị cũ |
+| Không gửi được push tới thiết bị | Không báo người dùng; mục vẫn có ở trang Hoạt động |
 
 ## 9. Danh sách thông báo
 

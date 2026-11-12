@@ -85,6 +85,11 @@ stateDiagram-v2
 
 ### UC-01 Tạo workspace và mời thành viên
 
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Người tạo đã đăng nhập bằng email công ty |
+| Hậu điều kiện | Thành công: workspace và #chung được tạo, người tạo là Chủ sở hữu; người được mời ở `DA_MOI` hoặc `DANG_HOAT_DONG`. Thất bại: không tạo workspace |
+
 ```mermaid
 flowchart TD
   A["SCR-01 Tạo workspace"] --> B["Tên, đường dẫn, tên miền BR-01"]
@@ -167,6 +172,11 @@ flowchart TD
 
 ### UC-03 Lưu trữ, chuyển loại kênh
 
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Kênh `CONG_KHAI` hoặc `RIENG_TU`; người thao tác là người tạo kênh hoặc quản trị (chuyển loại: chỉ quản trị) |
+| Hậu điều kiện | Kênh `LUU_TRU` chỉ đọc, hoặc kênh thành `RIENG_TU` và không đảo ngược được |
+
 ```mermaid
 flowchart TD
   A["SCR-04 Thông tin kênh"] --> B{"Thao tác"}
@@ -207,6 +217,11 @@ sequenceDiagram
 
 ### UC-05 Cài đặt AI
 
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Người thao tác là quản trị workspace |
+| Hậu điều kiện | `ai_enabled` và danh sách `ai_excluded` được lưu; AI ngừng đọc kênh bị loại trừ (BR-14) |
+
 | **Bước** | **Actor** | **Mô tả** |
 | --- | --- | --- |
 | 1 | Quản trị | **SCR-05** → Trợ lý AI |
@@ -216,14 +231,14 @@ sequenceDiagram
 
 ## 6. Điểm vào
 
-| **Điểm vào** | **Dẫn tới** | **Ghi chú** |
-| --- | --- | --- |
-| Trang đăng ký → Tạo workspace | UC-01, **SCR-01** | |
-| Email mời, link mời | UC-01 (tham gia) | |
-| Thanh bên **SCR-02** → "+" | UC-02 tạo kênh | |
-| Thanh bên → Duyệt kênh | **SCR-03** | |
-| Tên kênh ở đầu **SCR-06** | **SCR-04** | |
-| Hồ sơ → Quản trị workspace | **SCR-05**, UC-04, UC-05 | Chỉ quản trị |
+| **Điểm vào** | **Web** | **App** | **Dẫn tới** | **Ghi chú** |
+| --- | --- | --- | --- | --- |
+| Trang đăng ký → Tạo workspace | ✓ | ✓ | UC-01, **SCR-01** |  |
+| Email mời, link mời | ✓ | ✓ | UC-01 (tham gia) |  |
+| Thanh bên **SCR-02** → "+" | ✓ | ✓ | UC-02 tạo kênh |  |
+| Thanh bên → Duyệt kênh | ✓ | ✓ | **SCR-03** |  |
+| Tên kênh ở đầu **SCR-06** | ✓ | ✓ | **SCR-04** |  |
+| Hồ sơ → Quản trị workspace | ✓ | ✓ | **SCR-05**, UC-04, UC-05 | Chỉ quản trị |
 
 ## 7. Mô tả màn hình
 
@@ -297,6 +312,17 @@ Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (m�
 | \[MemberUpdate\] | user_id, role hoặc status | member | 5s / 2 lần |
 | \[AiSettingsSave\] | ai_enabled, ai_excluded | – | 5s / 2 lần |
 | \[PermissionCheck\] (nội bộ) | user_id, conversation_id | can_view, can_post | Dùng chung cho TN02–TN05 |
+
+**Map lỗi → thông báo** `[giả định]`
+
+| **Nhóm lỗi** | **Message** |
+| --- | --- |
+| Đường dẫn workspace đã có người dùng | MSG-01 |
+| Lời mời hết hạn hoặc bị thu hồi | MSG-02 |
+| Trùng tên kênh | MSG-03; kênh trùng đang lưu trữ → MSG-04 |
+| Tài khoản bị vô hiệu hoá | MSG-09 |
+| Gửi tin, sửa kênh đã lưu trữ | MSG-10 |
+| Không đủ quyền thực hiện thao tác | Ẩn thao tác trên giao diện; máy chủ vẫn từ chối nếu bị gọi |
 
 ## 9. Danh sách thông báo
 

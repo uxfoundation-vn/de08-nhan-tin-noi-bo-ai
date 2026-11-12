@@ -151,6 +151,11 @@ flowchart TD
 
 ### UC-07 Thread
 
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Người dùng xem được hội thoại chứa tin gốc (BR-10); kênh không `LUU_TRU` |
+| Hậu điều kiện | Trả lời gắn vào thread; tin gốc cập nhật số trả lời và lần trả lời cuối |
+
 ```mermaid
 flowchart TD
   A["Tin trong kênh"] -->|Trả lời trong thread| B["SCR-07 Thread: tin gốc + các trả lời"]
@@ -217,6 +222,11 @@ sequenceDiagram
 
 ### UC-10 Sửa, xoá, reaction
 
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Tin `DA_GUI` hoặc `DA_SUA`; sửa, xoá chỉ với tin của mình, sửa trong 24 giờ |
+| Hậu điều kiện | Tin `DA_SUA`, `DA_XOA`, hoặc reaction được cập nhật trên mọi thiết bị |
+
 ```mermaid
 flowchart TD
   A["Giữ lâu hoặc rê chuột tin"] --> B{"Thao tác"}
@@ -236,13 +246,13 @@ flowchart TD
 
 ## 6. Điểm vào
 
-| **Điểm vào** | **Dẫn tới** | **Ghi chú** |
-| --- | --- | --- |
-| Chạm kênh, người trên **SCR-02** | **SCR-06** | Cuộn tới tin chưa đọc |
-| "Nhắn tin mới" | Chọn người → **SCR-06** tin nhắn trực tiếp | Tối đa 8 người |
-| "{n} trả lời" dưới tin | **SCR-07** | |
-| Thông báo đẩy | **SCR-06** hoặc **SCR-07**, nhảy tới đúng tin | SRS TN03 |
-| Nguồn trích dẫn của AI | **SCR-06** nhảy tới đúng tin | SRS TN04, TN05 |
+| **Điểm vào** | **Web** | **App** | **Dẫn tới** | **Ghi chú** |
+| --- | --- | --- | --- | --- |
+| Chạm kênh, người trên **SCR-02** | ✓ | ✓ | **SCR-06** | Cuộn tới tin chưa đọc |
+| "Nhắn tin mới" | ✓ | ✓ | Chọn người → **SCR-06** tin nhắn trực tiếp | Tối đa 8 người |
+| "{n} trả lời" dưới tin | ✓ | ✓ | **SCR-07** |  |
+| Thông báo đẩy | ✓ | ✓ | **SCR-06** hoặc **SCR-07**, nhảy tới đúng tin | SRS TN03 |
+| Nguồn trích dẫn của AI | ✓ | ✓ | **SCR-06** nhảy tới đúng tin | SRS TN04, TN05 |
 
 ## 7. Mô tả màn hình
 
@@ -293,6 +303,17 @@ flowchart TD
 | \[FileUploadInit\], \[FileUploadChunk\], \[FileUploadComplete\] | file meta, chunk | file_id, scan_status | 30s mỗi khúc / 3 lần |
 | \[ReadMark\] | conversation_id hoặc thread_id, last_read_seq | – | 3s / gộp và gửi lại |
 | \[DraftSave\] | conversation_id, thread_id, text | – | 3s / ghi đè lần sau |
+
+**Map lỗi → thông báo** `[giả định]`
+
+| **Nhóm lỗi** | **Message** |
+| --- | --- |
+| Tin vượt 4.000 ký tự | MSG-13 |
+| Không còn quyền trong hội thoại | MSG-16 |
+| File bị chặn vì không an toàn | MSG-17 |
+| Vượt số file, dung lượng, loại file | MSG-18, MSG-19, MSG-20 |
+| Mất kết nối | MSG-22; tin chờ gửi hiện MSG-15 |
+| Gửi thất bại sau 3 lần thử | MSG-23 |
 
 ## 9. Danh sách thông báo
 

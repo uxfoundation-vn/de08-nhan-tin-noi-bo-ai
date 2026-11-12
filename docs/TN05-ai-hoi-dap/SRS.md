@@ -154,6 +154,11 @@ flowchart TD
 
 ### UC-20 Hỏi tiếp và lịch sử phiên
 
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Phiên có ít nhất một lượt hỏi `HOAN_TAT` |
+| Hậu điều kiện | Câu trả lời tiếp dùng ngữ cảnh phiên; phiên lưu 30 ngày, chỉ người hỏi thấy (BR-69) |
+
 ```mermaid
 flowchart TD
   A["Câu trả lời HOAN_TAT"] --> B["Gõ câu hỏi tiếp"]
@@ -170,6 +175,11 @@ flowchart TD
 ```
 
 ### UC-21 Cập nhật chỉ mục theo thay đổi dữ liệu và quyền
+
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Có thay đổi tin nhắn (gửi, sửa, xoá) hoặc thay đổi quyền (rời kênh, vô hiệu hoá, loại trừ AI) |
+| Hậu điều kiện | Chỉ mục phản ánh thay đổi; đoạn người hỏi không còn quyền xem không được trả về |
 
 ```mermaid
 sequenceDiagram
@@ -191,13 +201,13 @@ sequenceDiagram
 
 ## 6. Điểm vào
 
-| **Điểm vào** | **Dẫn tới** | **Ghi chú** |
-| --- | --- | --- |
-| Thanh bên → Hỏi AI | UC-19, phạm vi Tất cả | |
-| Header kênh → ✨ → Hỏi về kênh này | UC-19, phạm vi Kênh | |
-| Phím tắt (Web) | **SCR-13** | `[giả định]` Ctrl/Cmd + J |
-| Nguồn trong câu trả lời | **SCR-06** nhảy tới tin | Kiểm tra lại `can_view` |
-| Lịch sử phiên | UC-20 | |
+| **Điểm vào** | **Web** | **App** | **Dẫn tới** | **Ghi chú** |
+| --- | --- | --- | --- | --- |
+| Thanh bên → Hỏi AI | ✓ | ✓ | UC-19, phạm vi Tất cả |  |
+| Header kênh → ✨ → Hỏi về kênh này | ✓ | ✓ | UC-19, phạm vi Kênh |  |
+| Phím tắt (Web) | ✓ | – | **SCR-13** | `[giả định]` Ctrl/Cmd + J |
+| Nguồn trong câu trả lời | ✓ | ✓ | **SCR-06** nhảy tới tin | Kiểm tra lại `can_view` |
+| Lịch sử phiên | ✓ | ✓ | UC-20 |  |
 
 ## 7. Mô tả màn hình
 
@@ -253,6 +263,18 @@ sequenceDiagram
     AI-->>App: MSG-45, gợi ý kênh
   end
 ```
+
+**Map lỗi → thông báo** `[giả định]`
+
+| **Nhóm lỗi** | **Message** |
+| --- | --- |
+| Câu hỏi sai độ dài | MSG-51 |
+| Vượt lượt hỏi trong ngày | MSG-49 |
+| Không tìm thấy nguồn đủ liên quan | MSG-45 |
+| Câu hỏi ngoài phạm vi workspace | MSG-48 |
+| Mô hình lỗi, quá 30 giây | MSG-50 |
+| Chỉ mục tìm kiếm không khả dụng | MSG-52 |
+| Nguồn không còn quyền truy cập | MSG-54 |
 
 ## 9. Danh sách thông báo
 

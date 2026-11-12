@@ -155,6 +155,11 @@ flowchart TD
 
 ### UC-16 Tóm tắt thread
 
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Thoả BR-43; người dùng xem được thread |
+| Hậu điều kiện | Tóm tắt thread chỉ người yêu cầu thấy, hoặc một trạng thái kết thúc khác ở mục 4.1 |
+
 | **Bước** | **Actor** | **Mô tả** |
 | --- | --- | --- |
 | 1 | Thành viên | Ở **SCR-07** thread ≥ 10 trả lời, bấm "Tóm tắt thread" |
@@ -162,6 +167,11 @@ flowchart TD
 | 3 | App | Tóm tắt hiện trên đầu thread, thu gọn được, chỉ người yêu cầu thấy |
 
 ### UC-17 Bảng tóm tắt cho bạn
+
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Thoả BR-43 |
+| Hậu điều kiện | Danh sách hội thoại có nhiều tin chưa đọc; chọn một hội thoại thì chạy UC-15 |
 
 ```mermaid
 flowchart TD
@@ -174,6 +184,11 @@ flowchart TD
 ```
 
 ### UC-18 Chống chèn lệnh và giữ ranh giới dữ liệu
+
+| **Mục** | **Nội dung** |
+| --- | --- |
+| Tiền điều kiện | Có yêu cầu tóm tắt (UC-15, UC-16) |
+| Hậu điều kiện | Mô hình chỉ nhận tin đã lọc quyền (BR-46); nội dung tin không được coi là chỉ dẫn |
 
 ```mermaid
 sequenceDiagram
@@ -197,12 +212,12 @@ sequenceDiagram
 
 ## 6. Điểm vào
 
-| **Điểm vào** | **Dẫn tới** | **Ghi chú** |
-| --- | --- | --- |
-| Banner "Tóm tắt {n} tin chưa đọc" ở **SCR-06** | UC-15 | BR-45 |
-| Nút ✨ ở header **SCR-06** | UC-15 | |
-| Nút "Tóm tắt thread" ở **SCR-07** | UC-16 | |
-| Thanh bên → Tóm tắt | UC-17 | |
+| **Điểm vào** | **Web** | **App** | **Dẫn tới** | **Ghi chú** |
+| --- | --- | --- | --- | --- |
+| Banner "Tóm tắt {n} tin chưa đọc" ở **SCR-06** | ✓ | ✓ | UC-15 | BR-45 |
+| Nút ✨ ở header **SCR-06** | ✓ | ✓ | UC-15 |  |
+| Nút "Tóm tắt thread" ở **SCR-07** | ✓ | ✓ | UC-16 |  |
+| Thanh bên → Tóm tắt | ✓ | ✓ | UC-17 |  |
 
 ## 7. Mô tả màn hình
 
@@ -230,6 +245,16 @@ sequenceDiagram
 | \[SummaryFeedback\] | summary_id, rating, reason, note | – | 3s / 2 lần |
 | \[CitationResolve\] | summary_id, ref | conversation_id, message_id, seq (kiểm tra lại `can_view`) | 2s / 1 lần |
 | \[LlmGenerate\] (nội bộ) | system, data (tin có mã), schema | Mục có cấu trúc | 25s / 1 lần theo BR-49 |
+
+**Map lỗi → thông báo** `[giả định]`
+
+| **Nhóm lỗi** | **Message** |
+| --- | --- |
+| AI không khả dụng (bị tắt, kênh loại trừ, tài khoản Khách) | MSG-40 |
+| Vượt lượt tóm tắt trong ngày | MSG-39 |
+| Mô hình lỗi, quá 30 giây, kiểm tra trích dẫn thất bại | MSG-38 |
+| Mất mạng giữa chừng | MSG-41 |
+| Không có nội dung để tóm tắt | MSG-37 |
 
 ## 9. Danh sách thông báo
 
