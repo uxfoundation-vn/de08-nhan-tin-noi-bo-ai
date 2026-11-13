@@ -13,7 +13,6 @@
 | Phạm vi | Ô hỏi, phạm vi, truy xuất lai (ngữ nghĩa + từ khoá), lọc quyền, ngưỡng liên quan, sinh câu trả lời, kiểm tra trích dẫn, cảnh báo độ mới, mâu thuẫn, hỏi tiếp, lịch sử phiên, phản hồi, cập nhật chỉ mục |
 | Ngoài phạm vi | Đọc file, wiki; hành động; chia sẻ câu trả lời vào kênh; kiến thức chung |
 | Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
-| Figma | `[chưa có]` |
 
 ## 2. User Story
 
@@ -338,8 +337,6 @@ sequenceDiagram
 | MSG-52 | **SCR-13** | Trợ lý AI đang gián đoạn. Vui lòng thử lại sau ít phút, hoặc mở kênh để xem lại tin nhắn. \[Thử lại\] |
 | MSG-53 | **SCR-13** | Phiên này đã dài, hãy bắt đầu phiên mới để có câu trả lời chính xác hơn. \[Phiên mới\] |
 | MSG-54 | Nguồn | Không còn truy cập được |
-
-Bản EN: `[chờ bổ sung]`.
 
 ## 10. Yêu cầu phi chức năng
 

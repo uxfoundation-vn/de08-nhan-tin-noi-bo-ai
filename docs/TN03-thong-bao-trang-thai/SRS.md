@@ -13,7 +13,6 @@
 | Phạm vi | Mức thông báo, giờ yên lặng, tạm dừng, định tuyến thiết bị, gom, gỡ thông báo, Hoạt động, trạng thái online, tuỳ chỉnh, cảnh báo ngoài giờ cho người gửi |
 | Ngoài phạm vi | Email tóm tắt, từ khoá theo dõi, đồng bộ lịch, ưu tiên bằng AI |
 | Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
-| Figma | `[chưa có]` |
 
 ## 2. User Story
 
@@ -340,8 +339,6 @@ sequenceDiagram
 | MSG-30 | Banner thanh bên | Đã tạm dừng thông báo tới {giờ}. \[Tiếp tục nhận\] |
 | MSG-31 | Gợi ý lần đầu | Bạn muốn yên lặng sau giờ làm? Chúng tôi đề xuất 19:00–08:00 và cuối tuần. \[Dùng đề xuất\] \[Tự chọn\] |
 | MSG-32 | Banner hội thoại | {Tên}: {trạng thái tuỳ chỉnh} |
-
-Bản EN: `[chờ bổ sung]`.
 
 ## 10. Yêu cầu phi chức năng
 

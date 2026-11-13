@@ -13,7 +13,6 @@
 | Phạm vi | Gợi ý tóm tắt, yêu cầu, lọc quyền, gọi mô hình, kiểm tra trích dẫn, hiển thị từng phần, bộ nhớ đệm, giới hạn lượt, phản hồi, tạo lại, bảng tóm tắt |
 | Ngoài phạm vi | Bản tin theo lịch, tóm tắt file, tóm tắt cuộc gọi, đăng tóm tắt vào kênh |
 | Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
-| Figma | `[chưa có]` |
 
 ## 2. User Story
 
@@ -321,8 +320,6 @@ sequenceDiagram
 | MSG-40 | Tooltip, **SCR-12** | Trợ lý AI không khả dụng ở hội thoại này |
 | MSG-41 | **SCR-12** | Mất kết nối, tóm tắt chưa hoàn tất. \[Thử lại\] |
 | MSG-42 | **SCR-12** | Bạn đã theo kịp mọi kênh |
-
-Bản EN: `[chờ bổ sung]`.
 
 ## 10. Yêu cầu phi chức năng
 

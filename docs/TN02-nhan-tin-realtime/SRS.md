@@ -13,7 +13,6 @@
 | Phạm vi | Soạn, gửi, nhận, thread, file, sửa, xoá, reaction, mốc đọc, đã xem, bản nháp, kết nối lại, lấy bù |
 | Ngoài phạm vi | Tin thoại, video, hẹn giờ gửi, mã hoá đầu cuối, chuyển tiếp tin, tìm kiếm tin nhắn theo từ khoá |
 | Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
-| Figma | `[chưa có]` |
 
 ## 2. User Story
 
@@ -428,8 +427,6 @@ flowchart TD
 | MSG-22 | Banner | Đang kết nối lại… Tin nhắn của bạn sẽ được gửi khi có mạng |
 | MSG-23 | Nhãn dưới tin | Chưa gửi được · Thử lại · Xoá |
 | MSG-24 | Banner | Có tin cũ hơn. \[Tải thêm\] |
-
-Bản EN: `[chờ bổ sung]`.
 
 ## 10. Yêu cầu phi chức năng
 
