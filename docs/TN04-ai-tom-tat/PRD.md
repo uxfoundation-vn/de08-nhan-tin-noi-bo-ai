@@ -196,6 +196,6 @@ AC02: Tạo lại tạo phiên bản mới; xem lại được phiên bản trư
 > Câu nào đã có giá trị ở mục 5 thì giá trị đó là **tạm chốt** `[giả định]` để dựng flow. Câu hỏi vẫn để mở cho đến khi PO xác nhận.
 
 - Tóm tắt có lưu lại để người khác trong kênh dùng chung không (hiện tại: riêng tư)?
-- Có hỗ trợ tóm tắt bằng tiếng Anh khi kênh viết tiếng Anh?
+- Có hỗ trợ tóm tắt bằng tiếng Anh khi kênh viết tiếng Anh? → **Đã chốt:** Không. Tóm tắt luôn bằng tiếng Việt.
 - Ngưỡng 10 tin chưa đọc có phù hợp?
-- Có cho người dùng tắt AI cho riêng mình?
+- Có cho người dùng tắt AI cho riêng mình? → **Đã chốt:** Có (SRS BR-43).

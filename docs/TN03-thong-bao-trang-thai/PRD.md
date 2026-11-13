@@ -217,6 +217,6 @@ AC02: Người gửi chọn "Vẫn thông báo" cho việc gấp, tối đa 3 l�
 > Câu nào đã có giá trị ở mục 5 thì giá trị đó là **tạm chốt** `[giả định]` để dựng flow. Câu hỏi vẫn để mở cho đến khi PO xác nhận.
 
 - Kênh "Tắt" có báo khi bị mention trực tiếp tên không?
-- Có cho người dùng ẩn trạng thái online không?
+- Có cho người dùng ẩn trạng thái online không? → **Đã chốt:** Có (SRS BR-40).
 - Giờ yên lặng có do quản trị đặt chung cho workspace?
 - Thông báo @kênh có vượt qua mức "Chỉ mention" không?

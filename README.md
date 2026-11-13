@@ -65,7 +65,7 @@ Ngoài phạm vi cả đề: gọi thoại, video, chia sẻ màn hình; tìm ki
 - Màn hình mã `SCR-..` dùng chung cho App và Web; khác biệt ghi trong từng SRS.
 - "Hội thoại" gồm kênh (công khai, riêng tư) và tin nhắn trực tiếp (1-1, nhóm nhỏ).
 - Đăng nhập bằng email công ty và SSO hoặc mã đăng nhập, không mô tả trong bộ tài liệu này.
-- Mã BR, MSG, UC đánh số liên tục trong cả đề: TN01 dùng BR-01–14, MSG-01–12; TN02 dùng BR-15–30, MSG-13–24; TN03 dùng BR-31–42, MSG-25–32; TN04 dùng BR-43–55, MSG-33–42; TN05 dùng BR-56–70, MSG-43–54.
+- Mã BR, MSG, UC đánh số liên tục trong cả đề: TN01 dùng BR-01–14, MSG-01–12; TN02 dùng BR-15–30, MSG-13–24; TN03 dùng BR-31–42, MSG-25–32; TN04 dùng BR-43–55, MSG-33–42; TN05 dùng BR-56–70, MSG-43–54. Mã bổ sung sau đánh tiếp từ số cuối: MSG-55 (xác nhận đánh dấu đã đọc khi tóm tắt bị cắt) ở SRS TN04; BR-71 (thời gian lưu tin), MSG-56 ở SRS TN01.
 - Giá trị đánh dấu `[giả định]` dùng để dựng flow, cần PO hoặc BA xác nhận trước khi dùng.
 
 ## Danh sách màn hình

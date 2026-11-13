@@ -204,7 +204,7 @@ AC02: Sao chép câu trả lời kèm link nguồn.
 
 > Câu nào đã có giá trị ở mục 5 thì giá trị đó là **tạm chốt** `[giả định]` để dựng flow. Câu hỏi vẫn để mở cho đến khi PO xác nhận.
 
-- Có cho AI gợi ý tên người có thể biết câu trả lời không (rủi ro làm phiền)?
+- Có cho AI gợi ý tên người có thể biết câu trả lời không (rủi ro làm phiền)? → **Đã chốt:** Không.
 - Phạm vi mặc định 12 tháng có phù hợp?
 - Có lưu câu hỏi để thống kê chủ đề hay hỏi (ẩn danh) không?
-- Có cần chế độ trả lời dài, chi tiết?
+- Có cần chế độ trả lời dài, chi tiết? → **Đã chốt:** Không. Giữ ≤ 150 từ (SRS BR-63).

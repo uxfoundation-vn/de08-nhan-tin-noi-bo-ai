@@ -29,12 +29,12 @@
 
 | **Mã** | **Quy tắc** |
 | --- | --- |
-| BR-43 | **Điều kiện dùng**: workspace `ai_enabled = true`; người yêu cầu không phải Khách; hội thoại không thuộc `ai_excluded`; `can_view(người yêu cầu, hội thoại)` |
-| BR-44 | **Phạm vi tin**: `UNREAD` (từ `last_read_seq + 1` tới tin mới nhất), `TODAY`, `LAST_7_DAYS`, hoặc `THREAD` (tin gốc + mọi trả lời). Giới hạn 500 tin gần nhất trong phạm vi; vượt → ghi `truncated`, báo MSG-35. Mỗi tóm tắt lưu `covered_from_seq` và `covered_to_seq` là `seq` nhỏ nhất và lớn nhất của tin đã lấy. **Đánh dấu đã đọc** đặt `last_read_seq` = `covered_to_seq`, không phải tin mới nhất lúc bấm, nên tin đến trong lúc xem tóm tắt vẫn là chưa đọc. Tóm tắt `truncated` → hỏi xác nhận MSG-35b trước khi đánh dấu, vì các tin cũ hơn `covered_from_seq` chưa được tóm tắt cũng sẽ thành đã đọc |
+| BR-43 | **Điều kiện dùng**: workspace `ai_enabled = true`; người yêu cầu không phải Khách và không tự tắt AI cho mình (cài đặt cá nhân "Dùng Trợ lý AI", mặc định bật; tắt thì ẩn mọi nút, banner AI với người đó); hội thoại không thuộc `ai_excluded`; `can_view(người yêu cầu, hội thoại)` |
+| BR-44 | **Phạm vi tin**: `UNREAD` (từ `last_read_seq + 1` tới tin mới nhất), `TODAY`, `LAST_7_DAYS`, hoặc `THREAD` (tin gốc + mọi trả lời). Giới hạn 500 tin gần nhất trong phạm vi; vượt → ghi `truncated`, báo MSG-35. Mỗi tóm tắt lưu `covered_from_seq` và `covered_to_seq` là `seq` nhỏ nhất và lớn nhất của tin đã lấy. **Đánh dấu đã đọc** đặt `last_read_seq` = `covered_to_seq`, không phải tin mới nhất lúc bấm, nên tin đến trong lúc xem tóm tắt vẫn là chưa đọc. Tóm tắt `truncated` → hỏi xác nhận MSG-55 trước khi đánh dấu, vì các tin cũ hơn `covered_from_seq` chưa được tóm tắt cũng sẽ thành đã đọc |
 | BR-45 | **Ngưỡng gợi ý**: banner gợi ý khi `UNREAD` ≥ 10 tin; thread có nút khi ≥ 10 trả lời. Nút ✨ ở header luôn có khi thoả BR-43 |
 | BR-46 | **Lọc quyền trước mô hình**: tập tin đưa vào mô hình = tin trong phạm vi BR-44 **và** `can_view` với người yêu cầu tại thời điểm tạo; bỏ tin đã xoá; tin đã sửa dùng bản mới nhất. Không bao giờ đưa vào tin từ hội thoại khác |
 | BR-47 | **Đầu vào mô hình**: mỗi tin có mã tham chiếu ngắn (m1, m2…), tên người gửi, thời gian, nội dung văn bản, tên file (không có nội dung file). Nội dung tin được đánh dấu là dữ liệu, không phải chỉ dẫn |
-| BR-48 | **Đầu ra có cấu trúc**: `diem_chinh` (≤ 5), `quyet_dinh`, `viec_can_lam` (mô tả, người được giao nếu có, hạn nếu có), `cau_hoi_mo`; mỗi mục ≤ 2 câu và có ≥ 1 mã tham chiếu |
+| BR-48 | **Đầu ra có cấu trúc**, luôn bằng tiếng Việt kể cả khi kênh viết tiếng Anh: `diem_chinh` (≤ 5), `quyet_dinh`, `viec_can_lam` (mô tả, người được giao nếu có, hạn nếu có), `cau_hoi_mo`; mỗi mục ≤ 2 câu và có ≥ 1 mã tham chiếu |
 | BR-49 | **Kiểm tra trích dẫn sau khi tạo**: loại mục có mã tham chiếu không thuộc tập BR-46; nếu > 30% mục bị loại → coi là lỗi chất lượng, tự tạo lại 1 lần; vẫn lỗi → MSG-38 `[giả định]` |
 | BR-50 | **Liên quan tới bạn**: mục có người được giao là người yêu cầu, hoặc trích dẫn tin mention người yêu cầu → đưa lên đầu, gắn nhãn |
 | BR-51 | **Không có nội dung**: mô hình trả về rỗng hoặc tập tin chỉ gồm tin rất ngắn, emoji → hiện MSG-37, không tạo mục |
@@ -138,7 +138,7 @@ flowchart TD
 
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
-| A1 | Vượt 500 tin | MSG-35 trên đầu tóm tắt; bấm Đánh dấu đã đọc thì hỏi xác nhận MSG-35b (BR-44) |
+| A1 | Vượt 500 tin | MSG-35 trên đầu tóm tắt; bấm Đánh dấu đã đọc thì hỏi xác nhận MSG-55 (BR-44) |
 | A7 | Có tin mới đến trong lúc xem tóm tắt | Đánh dấu đã đọc chỉ tới `covered_to_seq`; tin mới vẫn chưa đọc, **SCR-12** hiện "{n} tin mới sau tóm tắt" |
 | A2 | Đổi phạm vi (Hôm nay, 7 ngày) | Tạo yêu cầu mới |
 | A3 | Có tin mới trong lúc đang xem tóm tắt | Banner "Có {n} tin mới sau tóm tắt" + Cập nhật |
@@ -313,7 +313,7 @@ sequenceDiagram
 | MSG-33 | Banner **SCR-06** | {n} tin chưa đọc. \[✨ Tóm tắt\] |
 | MSG-34 | **SCR-12** | Đang đọc {n} tin… |
 | MSG-35 | **SCR-12** | Kênh có nhiều tin, đây là tóm tắt 500 tin gần nhất |
-| MSG-35b | Popup | Còn {k} tin cũ hơn chưa được tóm tắt. Đánh dấu tất cả là đã đọc? \[Huỷ\] \[Đánh dấu đã đọc\] |
+| MSG-55 | Popup | Còn {k} tin cũ hơn chưa được tóm tắt. Đánh dấu tất cả là đã đọc? \[Huỷ\] \[Đánh dấu đã đọc\] |
 | MSG-36 | Footer **SCR-12** | Do AI tạo, có thể sai sót. Chỉ bạn thấy tóm tắt này |
 | MSG-37 | **SCR-12** | Không có nội dung đáng chú ý trong các tin này |
 | MSG-38 | **SCR-12** | Chưa tạo được tóm tắt đáng tin cậy. \[Thử lại\] |

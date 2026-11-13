@@ -39,7 +39,7 @@
 | BR-37 | **Gom thông báo**: sự kiện cùng hội thoại (hoặc thread) cho cùng U trong 60 giây gộp thành 1 thông báo "{n} tin mới"; cập nhật thông báo đang hiện thay vì tạo mới |
 | BR-38 | **Gỡ thông báo**: khi `last_read_seq` (BR-27) vượt qua tin của thông báo, gửi lệnh gỡ thông báo tới mọi thiết bị của U; badge = số hội thoại có mention hoặc tin trực tiếp chưa đọc |
 | BR-39 | **Hoạt động**: lưu sự kiện `MENTION`, `MENTION_KENH`, `THREAD`, reaction vào tin của U; giữ 90 ngày; mỗi mục có trạng thái đã xem |
-| BR-40 | **Trạng thái online**: `HOAT_DONG` khi có thiết bị kết nối và có hoạt động trong 10 phút; `VANG_MAT` khi không; `KHONG_LAM_PHIEN` do U bật (kèm thời hạn). Không lưu lịch sử thay đổi trạng thái online |
+| BR-40 | **Trạng thái online**: `HOAT_DONG` khi có thiết bị kết nối và có hoạt động trong 10 phút; `VANG_MAT` khi không; `KHONG_LAM_PHIEN` do U bật (kèm thời hạn). Không lưu lịch sử thay đổi trạng thái online. **Ẩn trạng thái online**: U bật thì người khác luôn thấy U là `VANG_MAT` (trừ `KHONG_LAM_PHIEN` vẫn hiện); U vẫn thấy trạng thái thật của mình; `@here` không gửi cho U khi đang ẩn |
 | BR-41 | **Trạng thái tuỳ chỉnh**: biểu tượng + chữ ≤ 100 ký tự + hết hạn (30 phút, 1 giờ, hôm nay, tuần này, ngày giờ, không hết hạn); mẫu có sẵn; hết hạn tự xoá |
 | BR-42 | **Ngoài giờ cho người gửi**: soạn tin trực tiếp cho U đang trong giờ yên lặng, tạm dừng hoặc Không làm phiền → ô soạn hiện MSG-25. Người gửi chọn "Vẫn thông báo" → push vượt chặn; tối đa 3 lần mỗi ngày mỗi cặp người gửi – U; U tắt được quyền này trong cài đặt |
 
@@ -278,6 +278,8 @@ flowchart TD
 | 2 | Trạng thái tuỳ chỉnh | Picker | Mẫu: Đang họp, Đang di chuyển, Nghỉ ốm, Nghỉ phép, Làm việc từ xa; ô tự gõ; hết hạn |
 | 3 | Không làm phiền | Toggle + thời hạn | |
 | 4 | Giờ địa phương | Text | "Giờ địa phương {hh:mm}" cho người khác thấy khi khác múi giờ |
+| 5 | Ẩn trạng thái online | Toggle | BR-40 |
+| 6 | Dùng Trợ lý AI | Toggle | Mặc định bật; tắt thì ẩn tính năng AI cho riêng mình (TN04 BR-43) |
 
 ## 8. API
 

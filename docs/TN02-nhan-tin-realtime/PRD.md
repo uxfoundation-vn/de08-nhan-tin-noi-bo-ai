@@ -215,4 +215,4 @@ AC03: Tắt đã xem trong cài đặt → không gửi trạng thái của mìn
 - Có cho xoá tin của người khác với quyền quản trị không?
 - Giới hạn sửa 24 giờ có cần không?
 - Đã xem có nên có ở kênh nhỏ (≤ 10 người)?
-- Thời gian lưu tin có cần cấu hình theo workspace?
+- Thời gian lưu tin có cần cấu hình theo workspace? → **Đã chốt:** Có, theo workspace (SRS TN01 BR-71).

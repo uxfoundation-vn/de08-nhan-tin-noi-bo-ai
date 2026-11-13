@@ -39,11 +39,12 @@
 | BR-07 | **Loại kênh**: `CONG_KHAI` (mọi Thành viên thấy, tự tham gia), `RIENG_TU` (chỉ thành viên kênh thấy, vào bằng lời mời). Khách không tự tham gia kênh công khai |
 | BR-08 | **Kênh mặc định**: #chung (không rời được, không lưu trữ được) và tối đa 3 kênh công khai do quản trị chọn; người mới tự tham gia |
 | BR-09 | **Quyền tạo kênh**: Thành viên tạo kênh công khai và riêng tư `[giả định]`; Khách không tạo kênh |
-| BR-10 | **Quyền xem hội thoại** (`can_view(user, conversation)`): công khai → user là Thành viên trở lên của workspace, hoặc là Khách đã được mời vào kênh; riêng tư và tin nhắn trực tiếp → user là thành viên hội thoại. Áp dụng cho danh sách kênh, tìm kênh, tin nhắn, thông báo, AI |
+| BR-10 | **Quyền xem hội thoại** (`can_view(user, conversation)`): công khai → user là Thành viên trở lên của workspace, hoặc là Khách đã được mời vào kênh; riêng tư và tin nhắn trực tiếp → user là thành viên hội thoại. Khách được mở tin nhắn trực tiếp 1-1 với mọi Thành viên của workspace, kể cả khi không chung kênh; Thành viên cũng mở được với Khách. Áp dụng cho danh sách kênh, tìm kênh, tin nhắn, thông báo, AI |
 | BR-11 | **Lưu trữ kênh**: người tạo kênh hoặc quản trị; kênh `LUU_TRU` chỉ đọc, vẫn hiện trong tìm kênh và vẫn thuộc phạm vi AI hỏi đáp (TN05); thành viên giữ nguyên; khôi phục được |
 | BR-12 | **Công khai → riêng tư**: chỉ quản trị; thành viên hiện tại giữ nguyên; không đảo ngược. Tin nhắn cũ trước thời điểm chuyển chỉ còn thành viên kênh thấy |
 | BR-13 | **Vô hiệu hoá thành viên**: thu hồi mọi phiên, ngắt kết nối realtime ≤ 1 phút; giữ tin nhắn, hiện tên kèm "(đã vô hiệu hoá)"; không còn trong danh sách mention, tìm người |
-| BR-14 | **Cài đặt AI** (quản trị): `ai_enabled` của workspace; danh sách kênh `ai_excluded`. Khách luôn không dùng AI. AI chỉ đọc hội thoại thoả BR-10 với người hỏi **và** không thuộc `ai_excluded` |
+| BR-71 | **Thời gian lưu tin** (chủ sở hữu, quản trị cấu hình theo workspace): Vĩnh viễn (mặc định), 1 năm, 2 năm, 5 năm `[giả định]`. Tác vụ hằng ngày xoá hẳn tin và file quá hạn, gỡ khỏi chỉ mục AI (TN05) ≤ 24 giờ; tin gốc của thread bị xoá theo quy tắc xoá của TN02 BR-25. Rút ngắn thời gian lưu → MSG-56 xác nhận, áp dụng từ lần chạy tác vụ kế tiếp |
+| BR-14 | **Cài đặt AI** (quản trị): `ai_enabled` của workspace, **mặc định bật** khi tạo workspace; danh sách kênh `ai_excluded`. Khách luôn không dùng AI. AI chỉ đọc hội thoại thoả BR-10 với người hỏi **và** không thuộc `ai_excluded` |
 
 ## 4. Trạng thái
 
@@ -363,7 +364,8 @@ Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (m�
 | 2 | Lời mời | Table | Email, vai trò, trạng thái, hết hạn; gửi lại, thu hồi; link mời |
 | 3 | Tên miền, tự tham gia | Form | BR-05 |
 | 4 | Kênh mặc định | Multi-select | BR-08 |
-| 5 | Trợ lý AI | Toggle + danh sách kênh loại trừ | BR-14 |
+| 5 | Trợ lý AI | Toggle + danh sách kênh loại trừ | BR-14; mặc định bật |
+| 6 | Thời gian lưu tin | Select | Vĩnh viễn, 1 năm, 2 năm, 5 năm (BR-71) |
 
 ## 8. API
 
@@ -380,6 +382,7 @@ Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (m�
 | \[ChannelUpdate\] | channel_id, name, description, topic, type, archived | channel | 3s / 2 lần |
 | \[MemberUpdate\] | user_id, role hoặc status | member | 5s / 2 lần |
 | \[AiSettingsSave\] | ai_enabled, ai_excluded | – | 5s / 2 lần |
+| \[RetentionSave\] | retention (FOREVER, 1Y, 2Y, 5Y) | – | 5s / 2 lần; BR-71 |
 | \[PermissionCheck\] (nội bộ) | user_id, conversation_id | can_view, can_post | Dùng chung cho TN02–TN05 |
 
 **Map lỗi → thông báo**
@@ -409,6 +412,7 @@ Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (m�
 | MSG-10 | Banner kênh | Kênh này đã được lưu trữ, bạn chỉ có thể đọc |
 | MSG-11 | Tooltip | Trợ lý AI không đọc tin nhắn trong kênh này |
 | MSG-12 | Toast | Đã gửi {n} lời mời{, {m} email chưa hợp lệ} |
+| MSG-56 | Popup | Tin nhắn và file cũ hơn {thời gian} sẽ bị xoá vĩnh viễn và không khôi phục được. \[Huỷ\] \[Áp dụng\] |
 
 Bản EN: `[chờ bổ sung]`.
 

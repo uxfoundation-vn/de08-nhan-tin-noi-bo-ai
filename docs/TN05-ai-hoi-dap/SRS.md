@@ -29,7 +29,7 @@
 
 | **Mã** | **Quy tắc** |
 | --- | --- |
-| BR-56 | **Điều kiện dùng** giống BR-43: `ai_enabled`, không phải Khách; phạm vi một kênh thì kênh đó phải thoả `can_view` và không `ai_excluded` |
+| BR-56 | **Điều kiện dùng** giống BR-43: `ai_enabled`, không phải Khách, không tự tắt AI; phạm vi một kênh thì kênh đó phải thoả `can_view` và không `ai_excluded` |
 | BR-57 | **Câu hỏi** 3–500 ký tự; tiếng Việt hoặc tiếng Anh; câu trả lời theo ngôn ngữ câu hỏi |
 | BR-58 | **Phạm vi**: `TAT_CA` (mọi hội thoại thoả BR-10 với người hỏi, trừ `ai_excluded`), `KENH` (một kênh), kèm khoảng thời gian (mặc định 12 tháng gần nhất; tối đa toàn bộ lịch sử) |
 | BR-59 | **Chỉ mục**: mỗi tin (hoặc đoạn ≤ 800 ký tự của tin dài) có vector ngữ nghĩa, từ khoá, `conversation_id`, `seq`, thời gian, người gửi. Tin mới vào chỉ mục ≤ 5 phút; tin sửa cập nhật, tin xoá và kênh `ai_excluded` gỡ khỏi chỉ mục ≤ 5 phút |

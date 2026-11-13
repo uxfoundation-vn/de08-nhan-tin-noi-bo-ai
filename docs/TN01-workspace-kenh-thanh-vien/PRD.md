@@ -194,6 +194,6 @@ AC03: Khách không dùng AI.
 > Câu nào đã có giá trị ở mục 5 thì giá trị đó là **tạm chốt** `[giả định]` để dựng flow. Câu hỏi vẫn để mở cho đến khi PO xác nhận.
 
 - Thành viên có được tạo kênh riêng tư không, hay chỉ quản trị?
-- Khách có được nhắn tin 1-1 với thành viên ngoài kênh chung?
-- Có giới hạn số kênh mỗi workspace?
-- Mặc định AI bật hay tắt khi tạo workspace?
+- Khách có được nhắn tin 1-1 với thành viên ngoài kênh chung? → **Đã chốt:** Có, với mọi Thành viên kể cả khi không chung kênh (SRS BR-10).
+- Có giới hạn số kênh mỗi workspace? → **Đã chốt:** Không giới hạn.
+- Mặc định AI bật hay tắt khi tạo workspace? → **Đã chốt:** Bật (SRS BR-14).
