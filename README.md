@@ -58,14 +58,14 @@ Công ty 50–500 người dùng nhắn tin cho công việc. Vấn đề thư�
 | Người mới vào | Tìm lại bối cảnh, câu trả lời đã có |
 | Quản trị workspace | Mời, quản lý thành viên, kênh; kiểm soát dữ liệu và AI |
 
-Ngoài phạm vi cả đề: gọi thoại, video, chia sẻ màn hình; tích hợp ứng dụng bên ngoài (bot, webhook); kết nối nhiều workspace; tuân thủ lưu trữ pháp lý (eDiscovery); AI tự động trả lời thay người dùng; AI đọc nội dung file đính kèm (MVP chỉ tên file).
+Ngoài phạm vi cả đề: gọi thoại, video, chia sẻ màn hình; tìm kiếm tin nhắn theo từ khoá (chỉ có tìm kênh ở TN01 và AI hỏi đáp ở TN05); tích hợp ứng dụng bên ngoài (bot, webhook); kết nối nhiều workspace; tuân thủ lưu trữ pháp lý (eDiscovery); AI tự động trả lời thay người dùng; AI đọc nội dung file đính kèm (MVP chỉ tên file).
 
 ## Quy ước dùng chung
 
 - Màn hình mã `SCR-..` dùng chung cho App và Web; khác biệt ghi trong từng SRS.
 - "Hội thoại" gồm kênh (công khai, riêng tư) và tin nhắn trực tiếp (1-1, nhóm nhỏ).
 - Đăng nhập bằng email công ty và SSO hoặc mã đăng nhập, không mô tả trong bộ tài liệu này.
-- Mã BR, MSG, UC đánh số liên tục trong cả đề: TN01 dùng BR-01–14, MSG-01–12; TN02 dùng BR-15–30, MSG-13–24; TN03 dùng BR-31–42, MSG-25–32; TN04 dùng BR-43–55, MSG-33–42; TN05 dùng BR-56–70, MSG-43–54.
+- Mã BR, MSG, UC đánh số liên tục trong cả đề: TN01 dùng BR-01–14, MSG-01–12; TN02 dùng BR-15–30, MSG-13–24; TN03 dùng BR-31–42, MSG-25–32; TN04 dùng BR-43–55, MSG-33–42; TN05 dùng BR-56–70, MSG-43–54. Mã bổ sung sau đánh tiếp từ số cuối: MSG-55 (xác nhận đánh dấu đã đọc khi tóm tắt bị cắt) ở SRS TN04; BR-71 (thời gian lưu tin), MSG-56 ở SRS TN01.
 - Giá trị đánh dấu `[giả định]` dùng để dựng flow, cần PO hoặc BA xác nhận trước khi dùng.
 
 ## Danh sách màn hình

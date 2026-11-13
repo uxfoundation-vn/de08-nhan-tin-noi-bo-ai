@@ -11,7 +11,7 @@
 | Mục tiêu | Gửi, nhận tin realtime trong kênh, tin nhắn trực tiếp và thread; file; sửa, xoá, reaction; trạng thái gửi, đã xem; hàng đợi ngoại tuyến; đồng bộ nhiều thiết bị |
 | Actor | Thành viên · Khách · App, Web · Cổng realtime · Dịch vụ tin nhắn · Kho file · Dịch vụ quét file |
 | Phạm vi | Soạn, gửi, nhận, thread, file, sửa, xoá, reaction, mốc đọc, đã xem, bản nháp, kết nối lại, lấy bù |
-| Ngoài phạm vi | Tin thoại, video, hẹn giờ gửi, mã hoá đầu cuối, chuyển tiếp tin |
+| Ngoài phạm vi | Tin thoại, video, hẹn giờ gửi, mã hoá đầu cuối, chuyển tiếp tin, tìm kiếm tin nhắn theo từ khoá |
 | Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
 | Figma | `[chưa có]` |
 
@@ -30,7 +30,7 @@
 
 | **Mã** | **Quy tắc** |
 | --- | --- |
-| BR-15 | **Gửi tin** yêu cầu `can_post`: `can_view` (BR-10) và kênh không `LUU_TRU`; Khách chỉ gửi trong hội thoại được mời |
+| BR-15 | **Gửi tin** yêu cầu `can_post`: `can_view` (BR-10) và kênh không `LUU_TRU`; Khách chỉ gửi trong kênh được mời và trong tin nhắn trực tiếp 1-1 với Thành viên (TN01 BR-10) |
 | BR-16 | **Nội dung**: 1–4.000 ký tự sau khi bỏ khoảng trắng hai đầu, hoặc có ≥ 1 file. Định dạng markdown rút gọn: `**đậm**`, `_nghiêng_`, `` `code` ``, khối code, link tự nhận |
 | BR-17 | **client_id**: mỗi tin sinh UUID trên máy khi bấm Gửi; máy chủ idempotent theo (user_id, client_id) |
 | BR-18 | **Thứ tự**: máy chủ gán `seq` tăng dần theo hội thoại; client sắp theo `seq`; tin chưa có `seq` (đang gửi) hiện cuối theo thời điểm tạo |

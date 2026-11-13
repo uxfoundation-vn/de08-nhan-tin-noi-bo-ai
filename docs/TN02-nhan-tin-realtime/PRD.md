@@ -54,6 +54,7 @@ Nhắn tin là hoạt động chính của sản phẩm. Mỗi người dùng th
 - Hẹn giờ gửi tin, nhắc lại tin.
 - Mã hoá đầu cuối.
 - Chuyển tiếp tin sang hội thoại khác.
+- Tìm kiếm tin nhắn theo từ khoá; tìm lại nội dung cũ dùng AI hỏi đáp (TN05).
 - Đã xem trong kênh lớn (chỉ có ở tin nhắn trực tiếp).
 
 ## 4. Nguyên tắc sản phẩm
@@ -209,7 +210,9 @@ AC03: Tắt đã xem trong cài đặt → không gửi trạng thái của mìn
 
 ## 10. Câu hỏi mở
 
-- Có cho xoá tin của người khác với quyền quản trị không?
-- Giới hạn sửa 24 giờ có cần không?
-- Đã xem có nên có ở kênh nhỏ (≤ 10 người)?
-- Thời gian lưu tin có cần cấu hình theo workspace?
+> Mọi câu hỏi dưới đây đã được PO chốt ngày 13/11/2026; quyết định ghi sau mỗi câu và đã cập nhật vào SRS.
+
+- Có cho xoá tin của người khác với quyền quản trị không? → **Đã chốt:** Có, với quyền quản trị (SRS BR-25).
+- Giới hạn sửa 24 giờ có cần không? → **Đã chốt:** Có, chỉ sửa trong 24 giờ (SRS BR-24).
+- Đã xem có nên có ở kênh nhỏ (≤ 10 người)? → **Đã chốt:** Không. Chỉ tin nhắn trực tiếp (SRS BR-28).
+- Thời gian lưu tin có cần cấu hình theo workspace? → **Đã chốt:** Có, theo workspace (SRS TN01 BR-71).

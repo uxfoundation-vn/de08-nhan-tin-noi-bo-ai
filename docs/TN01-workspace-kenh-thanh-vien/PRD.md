@@ -191,7 +191,9 @@ AC03: Khách không dùng AI.
 
 ## 10. Câu hỏi mở
 
-- Thành viên có được tạo kênh riêng tư không, hay chỉ quản trị?
-- Khách có được nhắn tin 1-1 với thành viên ngoài kênh chung?
-- Có giới hạn số kênh mỗi workspace?
-- Mặc định AI bật hay tắt khi tạo workspace?
+> Mọi câu hỏi dưới đây đã được PO chốt ngày 13/11/2026; quyết định ghi sau mỗi câu và đã cập nhật vào SRS.
+
+- Thành viên có được tạo kênh riêng tư không, hay chỉ quản trị? → **Đã chốt:** Có (SRS BR-09).
+- Khách có được nhắn tin 1-1 với thành viên ngoài kênh chung? → **Đã chốt:** Có, với mọi Thành viên kể cả khi không chung kênh (SRS BR-10).
+- Có giới hạn số kênh mỗi workspace? → **Đã chốt:** Không giới hạn.
+- Mặc định AI bật hay tắt khi tạo workspace? → **Đã chốt:** Bật (SRS BR-14).

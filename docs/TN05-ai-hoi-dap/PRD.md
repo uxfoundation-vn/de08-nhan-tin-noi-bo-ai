@@ -202,7 +202,9 @@ AC02: Sao chép câu trả lời kèm link nguồn.
 
 ## 10. Câu hỏi mở
 
-- Có cho AI gợi ý tên người có thể biết câu trả lời không (rủi ro làm phiền)?
-- Phạm vi mặc định 12 tháng có phù hợp?
-- Có lưu câu hỏi để thống kê chủ đề hay hỏi (ẩn danh) không?
-- Có cần chế độ trả lời dài, chi tiết?
+> Mọi câu hỏi dưới đây đã được PO chốt ngày 13/11/2026; quyết định ghi sau mỗi câu và đã cập nhật vào SRS.
+
+- Có cho AI gợi ý tên người có thể biết câu trả lời không (rủi ro làm phiền)? → **Đã chốt:** Không.
+- Phạm vi mặc định 12 tháng có phù hợp? → **Đã chốt:** Giữ 12 tháng (SRS BR-58).
+- Có lưu câu hỏi để thống kê chủ đề hay hỏi (ẩn danh) không? → **Đã chốt:** Không. Nhật ký không ghi nội dung câu hỏi (SRS BR-70).
+- Có cần chế độ trả lời dài, chi tiết? → **Đã chốt:** Không. Giữ ≤ 150 từ (SRS BR-63).

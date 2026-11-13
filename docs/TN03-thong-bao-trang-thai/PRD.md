@@ -188,7 +188,7 @@ AC03: Hết hạn tự xoá.
 
 User Story: Là thành viên, tôi muốn biết người nhận đang ngoài giờ trước khi nhắn để không làm phiền khi việc không gấp.
 
-AC01: Nhắn tin trực tiếp cho người đang trong giờ yên lặng → ô soạn hiện "{tên} đang ngoài giờ làm việc, sẽ nhận thông báo lúc {giờ}".
+AC01: Nhắn tin trực tiếp cho người đang trong giờ yên lặng → ô soạn hiện "{tên} đang ngoài giờ làm việc tới {giờ} và sẽ không nhận thông báo đẩy cho tin này"; tin vẫn vào mục Hoạt động của họ.
 
 AC02: Người gửi chọn "Vẫn thông báo" cho việc gấp, tối đa 3 lần mỗi ngày.
 
@@ -214,7 +214,9 @@ AC02: Người gửi chọn "Vẫn thông báo" cho việc gấp, tối đa 3 l�
 
 ## 10. Câu hỏi mở
 
-- Kênh "Tắt" có báo khi bị mention trực tiếp tên không?
-- Có cho người dùng ẩn trạng thái online không?
-- Giờ yên lặng có do quản trị đặt chung cho workspace?
-- Thông báo @kênh có vượt qua mức "Chỉ mention" không?
+> Mọi câu hỏi dưới đây đã được PO chốt ngày 13/11/2026; quyết định ghi sau mỗi câu và đã cập nhật vào SRS.
+
+- Kênh "Tắt" có báo khi bị mention trực tiếp tên không? → **Đã chốt:** Có báo mention trực tiếp tên, không báo @kênh (SRS BR-32).
+- Có cho người dùng ẩn trạng thái online không? → **Đã chốt:** Có (SRS BR-40).
+- Giờ yên lặng có do quản trị đặt chung cho workspace? → **Đã chốt:** Không. Mỗi người tự đặt (SRS BR-35).
+- Thông báo @kênh có vượt qua mức "Chỉ mention" không? → **Đã chốt:** Có. Mức Chỉ mention vẫn báo @kênh; chỉ mức Tắt chặn @kênh (SRS BR-32).

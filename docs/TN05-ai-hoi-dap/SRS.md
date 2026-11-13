@@ -29,7 +29,7 @@
 
 | **Mã** | **Quy tắc** |
 | --- | --- |
-| BR-56 | **Điều kiện dùng** giống BR-43: `ai_enabled`, không phải Khách; phạm vi một kênh thì kênh đó phải thoả `can_view` và không `ai_excluded` |
+| BR-56 | **Điều kiện dùng** giống BR-43: `ai_enabled`, không phải Khách, không tự tắt AI; phạm vi một kênh thì kênh đó phải thoả `can_view` và không `ai_excluded` |
 | BR-57 | **Câu hỏi** 3–500 ký tự; tiếng Việt hoặc tiếng Anh; câu trả lời theo ngôn ngữ câu hỏi |
 | BR-58 | **Phạm vi**: `TAT_CA` (mọi hội thoại thoả BR-10 với người hỏi, trừ `ai_excluded`), `KENH` (một kênh), kèm khoảng thời gian (mặc định 12 tháng gần nhất; tối đa toàn bộ lịch sử) |
 | BR-59 | **Chỉ mục**: mỗi tin (hoặc đoạn ≤ 800 ký tự của tin dài) có vector ngữ nghĩa, từ khoá, `conversation_id`, `seq`, thời gian, người gửi. Tin mới vào chỉ mục ≤ 5 phút; tin sửa cập nhật, tin xoá và kênh `ai_excluded` gỡ khỏi chỉ mục ≤ 5 phút |
@@ -42,7 +42,7 @@
 | BR-66 | **Mâu thuẫn**: mô hình đánh dấu `mau_thuan` khi các nguồn khác nhau về cùng điểm → trình bày cả hai kèm thời gian, nguồn mới hơn đặt trước, không tự kết luận (MSG-47) |
 | BR-67 | **Ngoài phạm vi**: câu hỏi không liên quan tin nhắn workspace (kiến thức chung, yêu cầu viết hộ) → MSG-48, không sinh nội dung ngoài |
 | BR-68 | **Hỏi tiếp**: phiên giữ tối đa 10 lượt hỏi đáp; câu hỏi mới được viết lại thành câu độc lập từ ngữ cảnh phiên rồi mới truy xuất; mỗi lượt truy xuất lại và lọc quyền lại |
-| BR-69 | **Lịch sử phiên**: chỉ người hỏi thấy; lưu 30 ngày; xoá từng phiên hoặc tất cả. Mở phiên cũ → kiểm tra lại quyền từng nguồn; nguồn mất quyền hiện "Không còn truy cập được", không hiện đoạn trích |
+| BR-69 | **Lịch sử phiên**: chỉ người hỏi thấy; lưu 30 ngày; xoá từng phiên hoặc tất cả. Mở phiên cũ → kiểm tra lại từng nguồn (tin còn tồn tại, `can_view` còn đúng); nguồn hỏng hiện "Không còn truy cập được", không hiện đoạn trích. Câu trong câu trả lời còn ít nhất một nguồn hợp lệ thì giữ nguyên; câu mà **mọi** nguồn đều hỏng thì ẩn nội dung, thay bằng "Nội dung đã ẩn vì nguồn không còn khả dụng". Mọi câu đều bị ẩn → cả câu trả lời hiện thông báo này. Quy tắc dùng chung với tóm tắt đã lưu (TN04 UC-15 A6) |
 | BR-70 | **Giới hạn và dữ liệu**: 100 câu hỏi mỗi người mỗi ngày (MSG-49); không dùng tin nhắn, câu hỏi để huấn luyện mô hình; nhật ký ghi người hỏi, phạm vi, số đoạn, thời gian, không ghi nội dung câu hỏi `[giả định]` |
 
 ## 4. Trạng thái
@@ -149,7 +149,7 @@ flowchart TD
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
 | E1 | Mô hình lỗi, quá 30 giây | MSG-50, Thử lại |
-| E2 | Chỉ mục không khả dụng | MSG-52, gợi ý dùng tìm kiếm từ khoá (TN02) |
+| E2 | Chỉ mục không khả dụng | MSG-52, gợi ý thử lại sau; đề không có tìm kiếm tin nhắn theo từ khoá để thay thế |
 | E3 | Đoạn trượt lớp 2 (quyền đổi giữa chừng) | Bỏ đoạn; vẫn trả lời nếu còn đủ đoạn; ghi cảnh báo nội bộ |
 
 ### UC-20 Hỏi tiếp và lịch sử phiên
@@ -170,7 +170,7 @@ flowchart TD
   G --> H["Kiểm tra lại quyền từng nguồn BR-69"]
   H --> I{"Nguồn còn truy cập được?"}
   I -->|Có| J["Hiện như cũ"]
-  I -->|Không| K["Nhãn Không còn truy cập được, ẩn đoạn trích"]
+  I -->|Không| K["Nhãn Không còn truy cập được, ẩn đoạn trích; ẩn câu hết nguồn hợp lệ"]
   F --> L["Xoá phiên hoặc xoá tất cả"]
 ```
 
@@ -195,7 +195,7 @@ flowchart TD
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
 | E1 | Phiên đã đủ 10 lượt | MSG-53, gợi ý bắt đầu phiên mới |
-| E2 | Nguồn của phiên cũ không còn truy cập được | Nhãn MSG-54, ẩn đoạn trích |
+| E2 | Nguồn của phiên cũ không còn truy cập được hoặc tin đã bị xoá | Nhãn MSG-54, ẩn đoạn trích; câu không còn nguồn hợp lệ nào thì ẩn nội dung (BR-69) |
 
 ### UC-21 Cập nhật chỉ mục theo thay đổi dữ liệu và quyền
 
@@ -243,7 +243,7 @@ sequenceDiagram
 
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
-| E1 | Chỉ mục không khả dụng | MSG-52, gợi ý dùng tìm kiếm thường |
+| E1 | Chỉ mục không khả dụng | MSG-52, gợi ý thử lại sau |
 
 ## 6. Điểm vào
 
@@ -335,7 +335,7 @@ sequenceDiagram
 | MSG-49 | **SCR-13** | Bạn đã dùng hết 100 câu hỏi hôm nay. Vui lòng thử lại vào ngày mai |
 | MSG-50 | **SCR-13** | Chưa trả lời được lúc này. \[Thử lại\] |
 | MSG-51 | Inline | Câu hỏi cần từ 3 đến 500 ký tự |
-| MSG-52 | **SCR-13** | Tìm kiếm AI đang gián đoạn. Bạn có thể dùng tìm kiếm thường trong lúc chờ |
+| MSG-52 | **SCR-13** | Trợ lý AI đang gián đoạn. Vui lòng thử lại sau ít phút, hoặc mở kênh để xem lại tin nhắn. \[Thử lại\] |
 | MSG-53 | **SCR-13** | Phiên này đã dài, hãy bắt đầu phiên mới để có câu trả lời chính xác hơn. \[Phiên mới\] |
 | MSG-54 | Nguồn | Không còn truy cập được |
 

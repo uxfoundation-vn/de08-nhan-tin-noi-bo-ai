@@ -128,7 +128,7 @@ AC04: Mỗi mục có số trích dẫn; chạm mở tin gốc trong hội tho�
 
 AC05: Hiện "Tóm tắt {n} tin từ {thời điểm} đến {thời điểm} · Do AI tạo, có thể sai sót".
 
-AC06: Có "Đánh dấu đã đọc" sau khi xem tóm tắt.
+AC06: Có "Đánh dấu đã đọc" sau khi xem tóm tắt; chỉ đánh dấu tới tin cuối cùng đã được tóm tắt, tin đến sau vẫn là chưa đọc. Tóm tắt bị cắt ở 500 tin thì hỏi xác nhận trước.
 
 #### US1.2 Tóm tắt theo khoảng thời gian
 
@@ -193,7 +193,9 @@ AC02: Tạo lại tạo phiên bản mới; xem lại được phiên bản trư
 
 ## 10. Câu hỏi mở
 
-- Tóm tắt có lưu lại để người khác trong kênh dùng chung không (hiện tại: riêng tư)?
-- Có hỗ trợ tóm tắt bằng tiếng Anh khi kênh viết tiếng Anh?
-- Ngưỡng 10 tin chưa đọc có phù hợp?
-- Có cho người dùng tắt AI cho riêng mình?
+> Mọi câu hỏi dưới đây đã được PO chốt ngày 13/11/2026; quyết định ghi sau mỗi câu và đã cập nhật vào SRS.
+
+- Tóm tắt có lưu lại để người khác trong kênh dùng chung không (hiện tại: riêng tư)? → **Đã chốt:** Không. Tóm tắt riêng tư (SRS BR-54).
+- Có hỗ trợ tóm tắt bằng tiếng Anh khi kênh viết tiếng Anh? → **Đã chốt:** Không. Tóm tắt luôn bằng tiếng Việt.
+- Ngưỡng 10 tin chưa đọc có phù hợp? → **Đã chốt:** Giữ 10 tin (SRS BR-45).
+- Có cho người dùng tắt AI cho riêng mình? → **Đã chốt:** Có (SRS BR-43).
