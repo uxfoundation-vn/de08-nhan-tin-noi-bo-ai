@@ -13,7 +13,6 @@
 | Phạm vi | Workspace, lời mời, tự tham gia, vai trò, kênh công khai, riêng tư, mặc định, tham gia, rời, mời, xoá khỏi kênh, lưu trữ, vô hiệu hoá, cài đặt AI |
 | Ngoài phạm vi | Liên kết workspace, SCIM, nhóm người dùng, riêng tư → công khai |
 | Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
-| Figma | `[chưa có]` |
 
 ## 2. User Story
 
@@ -413,8 +412,6 @@ Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (m�
 | MSG-11 | Tooltip | Trợ lý AI không đọc tin nhắn trong kênh này |
 | MSG-12 | Toast | Đã gửi {n} lời mời{, {m} email chưa hợp lệ} |
 | MSG-56 | Popup | Tin nhắn và file cũ hơn {thời gian} sẽ bị xoá vĩnh viễn và không khôi phục được. \[Huỷ\] \[Áp dụng\] |
-
-Bản EN: `[chờ bổ sung]`.
 
 ## 10. Yêu cầu phi chức năng
 
