@@ -1,6 +1,6 @@
 # Đề 8 · Nhắn tin nội bộ có AI
 
-> **Mã:** DE08 · **Độ khó:** 8/8 · **Vai trò:** 3 (thành viên, quản trị workspace, trợ lý AI) · **Nền tảng:** App iOS / Android · Web / Desktop `[giả định]`
+> **Mã:** DE08 · **Độ khó:** 8/8 · **Vai trò:** 3 (thành viên, quản trị workspace, trợ lý AI) · **Nền tảng:** App iOS / Android · Web / Desktop
 
 Công cụ nhắn tin cho công ty: kênh theo nhóm, tin nhắn 1-1, thread, gửi file, trạng thái đã xem, thông báo có kiểm soát. Có trợ lý AI tóm tắt kênh hoặc thread và trả lời câu hỏi dựa trên lịch sử tin nhắn mà **người hỏi có quyền xem**. Đây là đề khó nhất: **realtime nhiều thiết bị**, **thông báo không gây phiền**, và **thiết kế trải nghiệm cho AI** (độ tin cậy, trích nguồn, quyền dữ liệu). Đề gồm 5 tính năng; mỗi tính năng có 1 PRD và 1 SRS riêng.
 
@@ -66,7 +66,6 @@ Ngoài phạm vi cả đề: gọi thoại, video, chia sẻ màn hình; tìm ki
 - "Hội thoại" gồm kênh (công khai, riêng tư) và tin nhắn trực tiếp (1-1, nhóm nhỏ).
 - Đăng nhập bằng email công ty và SSO hoặc mã đăng nhập, không mô tả trong bộ tài liệu này.
 - Mã BR, MSG, UC đánh số liên tục trong cả đề: TN01 dùng BR-01–14, MSG-01–12; TN02 dùng BR-15–30, MSG-13–24; TN03 dùng BR-31–42, MSG-25–32; TN04 dùng BR-43–55, MSG-33–42; TN05 dùng BR-56–70, MSG-43–54. Mã bổ sung sau đánh tiếp từ số cuối: MSG-55 (xác nhận đánh dấu đã đọc khi tóm tắt bị cắt) ở SRS TN04; BR-71 (thời gian lưu tin), MSG-56 ở SRS TN01.
-- Giá trị đánh dấu `[giả định]` dùng để dựng flow, cần PO hoặc BA xác nhận trước khi dùng.
 
 ## Danh sách màn hình
 

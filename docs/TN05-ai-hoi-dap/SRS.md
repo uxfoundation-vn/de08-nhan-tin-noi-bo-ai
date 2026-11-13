@@ -1,8 +1,8 @@
-> **Mã:** DE08-TN05-SRS · **Trạng thái:** nháp · **Người viết:** Design (mock) · **PRD:** [PRD.md](PRD.md)
+> **Mã:** DE08-TN05-SRS · **Trạng thái:** đã chốt · **Người viết:** Design · **PRD:** [PRD.md](PRD.md)
 
 # UC-DE08-05 - AI hỏi đáp trên lịch sử tin nhắn
 
-> **Bản mock.** Giá trị `[giả định]` cần BA xác nhận. Điều kiện dùng AI và quyền đọc theo BR-10, BR-14 ở [SRS TN01](../TN01-workspace-kenh-thanh-vien/SRS.md); kiểm tra trích dẫn tương tự BR-49 ở [SRS TN04](../TN04-ai-tom-tat/SRS.md).
+> Điều kiện dùng AI và quyền đọc theo BR-10, BR-14 ở [SRS TN01](../TN01-workspace-kenh-thanh-vien/SRS.md); kiểm tra trích dẫn tương tự BR-49 ở [SRS TN04](../TN04-ai-tom-tat/SRS.md).
 
 ## 1. Tổng quan
 
@@ -12,7 +12,7 @@
 | Actor | Thành viên (người hỏi) · App, Web · Trợ lý AI · Dịch vụ quyền · Chỉ mục tìm kiếm ngữ nghĩa · Dịch vụ tin nhắn · Mô hình ngôn ngữ |
 | Phạm vi | Ô hỏi, phạm vi, truy xuất lai (ngữ nghĩa + từ khoá), lọc quyền, ngưỡng liên quan, sinh câu trả lời, kiểm tra trích dẫn, cảnh báo độ mới, mâu thuẫn, hỏi tiếp, lịch sử phiên, phản hồi, cập nhật chỉ mục |
 | Ngoài phạm vi | Đọc file, wiki; hành động; chia sẻ câu trả lời vào kênh; kiến thức chung |
-| Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
+| Nền tảng | App iOS / Android, Web / Desktop |
 
 ## 2. User Story
 
@@ -33,7 +33,7 @@
 | BR-58 | **Phạm vi**: `TAT_CA` (mọi hội thoại thoả BR-10 với người hỏi, trừ `ai_excluded`), `KENH` (một kênh), kèm khoảng thời gian (mặc định 12 tháng gần nhất; tối đa toàn bộ lịch sử) |
 | BR-59 | **Chỉ mục**: mỗi tin (hoặc đoạn ≤ 800 ký tự của tin dài) có vector ngữ nghĩa, từ khoá, `conversation_id`, `seq`, thời gian, người gửi. Tin mới vào chỉ mục ≤ 5 phút; tin sửa cập nhật, tin xoá và kênh `ai_excluded` gỡ khỏi chỉ mục ≤ 5 phút |
 | BR-60 | **Lọc quyền hai lớp**: (1) truy vấn chỉ mục chỉ trong danh sách `conversation_id` người hỏi xem được tại thời điểm hỏi; (2) sau truy xuất, kiểm tra lại từng đoạn: tin còn tồn tại, `can_view` còn đúng. Đoạn trượt lớp 2 bị bỏ và ghi cảnh báo nội bộ |
-| BR-61 | **Truy xuất lai**: kết hợp điểm ngữ nghĩa và từ khoá; lấy tối đa 30 đoạn có điểm ≥ ngưỡng liên quan `[giả định]`; kèm 2 tin trước, sau mỗi đoạn trong cùng hội thoại làm ngữ cảnh (cũng qua lọc quyền) |
+| BR-61 | **Truy xuất lai**: kết hợp điểm ngữ nghĩa và từ khoá; lấy tối đa 30 đoạn có điểm ≥ ngưỡng liên quan; kèm 2 tin trước, sau mỗi đoạn trong cùng hội thoại làm ngữ cảnh (cũng qua lọc quyền) |
 | BR-62 | **Không đủ dữ liệu**: không đoạn nào vượt ngưỡng → không gọi mô hình sinh câu trả lời; trả MSG-45 kèm gợi ý tối đa 3 kênh liên quan nhất người hỏi xem được |
 | BR-63 | **Sinh câu trả lời**: mô hình chỉ dùng đoạn được cung cấp (mã s1…sn), đánh dấu là dữ liệu; mỗi câu khẳng định gắn mã nguồn; câu trả lời ≤ 150 từ mặc định; nếu dữ liệu không đủ → trả `khong_du_thong_tin` |
 | BR-64 | **Kiểm tra trích dẫn**: bỏ câu có mã nguồn ngoài tập cung cấp; câu trả lời còn < 1 câu có nguồn → coi như không tìm thấy (MSG-45) |
@@ -42,7 +42,7 @@
 | BR-67 | **Ngoài phạm vi**: câu hỏi không liên quan tin nhắn workspace (kiến thức chung, yêu cầu viết hộ) → MSG-48, không sinh nội dung ngoài |
 | BR-68 | **Hỏi tiếp**: phiên giữ tối đa 10 lượt hỏi đáp; câu hỏi mới được viết lại thành câu độc lập từ ngữ cảnh phiên rồi mới truy xuất; mỗi lượt truy xuất lại và lọc quyền lại |
 | BR-69 | **Lịch sử phiên**: chỉ người hỏi thấy; lưu 30 ngày; xoá từng phiên hoặc tất cả. Mở phiên cũ → kiểm tra lại từng nguồn (tin còn tồn tại, `can_view` còn đúng); nguồn hỏng hiện "Không còn truy cập được", không hiện đoạn trích. Câu trong câu trả lời còn ít nhất một nguồn hợp lệ thì giữ nguyên; câu mà **mọi** nguồn đều hỏng thì ẩn nội dung, thay bằng "Nội dung đã ẩn vì nguồn không còn khả dụng". Mọi câu đều bị ẩn → cả câu trả lời hiện thông báo này. Quy tắc dùng chung với tóm tắt đã lưu (TN04 UC-15 A6) |
-| BR-70 | **Giới hạn và dữ liệu**: 100 câu hỏi mỗi người mỗi ngày (MSG-49); không dùng tin nhắn, câu hỏi để huấn luyện mô hình; nhật ký ghi người hỏi, phạm vi, số đoạn, thời gian, không ghi nội dung câu hỏi `[giả định]` |
+| BR-70 | **Giới hạn và dữ liệu**: 100 câu hỏi mỗi người mỗi ngày (MSG-49); không dùng tin nhắn, câu hỏi để huấn luyện mô hình; nhật ký ghi người hỏi, phạm vi, số đoạn, thời gian, không ghi nội dung câu hỏi |
 
 ## 4. Trạng thái
 
@@ -250,7 +250,7 @@ sequenceDiagram
 | --- | --- | --- | --- | --- |
 | Thanh bên → Hỏi AI | ✓ | ✓ | UC-19, phạm vi Tất cả |  |
 | Header kênh → ✨ → Hỏi về kênh này | ✓ | ✓ | UC-19, phạm vi Kênh |  |
-| Phím tắt (Web) | ✓ | – | **SCR-13** | `[giả định]` Ctrl/Cmd + J |
+| Phím tắt (Web) | ✓ | – | **SCR-13** | Ctrl/Cmd + J |
 | Nguồn trong câu trả lời | ✓ | ✓ | **SCR-06** nhảy tới tin | Kiểm tra lại `can_view` |
 | Lịch sử phiên | ✓ | ✓ | UC-20 |  |
 
@@ -272,7 +272,7 @@ sequenceDiagram
 
 ## 8. API
 
-| **API** | **Request chính** | **Response chính** | **Timeout / retry** `[giả định]` |
+| **API** | **Request chính** | **Response chính** | **Timeout / retry** |
 | --- | --- | --- | --- |
 | \[AskCreate\] | question, scope, conversation_id, time_range, session_id | answer_id, stream | 30s tổng / không tự retry ở client |
 | \[AskStream\] | answer_id | Văn bản dần, trạng thái, nguồn đã kiểm tra, cờ stale, conflict | Kết nối truyền dần |
@@ -340,7 +340,7 @@ sequenceDiagram
 
 ## 10. Yêu cầu phi chức năng
 
-| **Mục** | **Yêu cầu** `[giả định]` |
+| **Mục** | **Yêu cầu** |
 | --- | --- |
 | Hiệu năng | Chữ đầu tiên ≤ 5 giây (p90); truy xuất ≤ 2 giây; hoàn tất ≤ 15 giây |
 | Bảo mật, quyền | Lọc quyền hai lớp (BR-60); kiểm thử tự động với tài khoản thử ở nhiều mức quyền, khẳng định 0 đoạn ngoài quyền; không có đường vượt quyền cho quản trị |

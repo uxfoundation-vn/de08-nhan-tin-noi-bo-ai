@@ -1,8 +1,6 @@
-> **Mã:** DE08-TN03-PRD · **Trạng thái:** nháp · **Người viết:** Design (mock) · **SRS:** [SRS.md](SRS.md)
+> **Mã:** DE08-TN03-PRD · **Trạng thái:** đã chốt · **Người viết:** Design · **SRS:** [SRS.md](SRS.md)
 
 # PRD Thông báo và trạng thái online (Nhắn tin nội bộ có AI)
-
-> **Bản mock.** Con số đánh dấu `[giả định]` dùng để dựng flow, cần PO xác nhận trước khi dùng.
 
 ## 1. Bối cảnh và vấn đề
 
@@ -22,8 +20,8 @@ Tin nhắn ([TN02](../TN02-nhan-tin-realtime/PRD.md)) chỉ có ích khi đến 
 
 ### 1.3 Mục tiêu
 
-- Tỉ lệ người dùng tắt toàn bộ thông báo ≤ 10% `[giả định]`.
-- ≥ 90% mention được người được nhắc xem trong 4 giờ làm việc `[giả định]`.
+- Tỉ lệ người dùng tắt toàn bộ thông báo ≤ 10%.
+- ≥ 90% mention được người được nhắc xem trong 4 giờ làm việc.
 - Không gửi push tới điện thoại khi người dùng đang hoạt động trên máy tính.
 
 ## 2. Người dùng
@@ -75,7 +73,7 @@ Người gửi thấy "Đang họp", "Nghỉ phép" ngay ở ô soạn tin, đ�
 
 ## 5. Quy tắc nghiệp vụ
 
-| **Quy tắc** | **Giá trị** `[giả định]` |
+| **Quy tắc** | **Giá trị** |
 | --- | --- |
 | Mức thông báo kênh | Mọi tin · Chỉ mention (mặc định) · Tắt |
 | Tin nhắn trực tiếp | Luôn thông báo trừ khi người dùng tắt cuộc trò chuyện đó |
@@ -124,7 +122,7 @@ User Story: Là nhân viên, tôi muốn chỉ được báo khi có việc liê
 
 AC01: Mặc định: tin nhắn trực tiếp, mention, thread đang theo dõi.
 
-AC02: Mỗi kênh chọn Mọi tin, Chỉ mention, Tắt; kênh Tắt vẫn báo khi bị mention trực tiếp tên `[giả định]`.
+AC02: Mỗi kênh chọn Mọi tin, Chỉ mention, Tắt; kênh Tắt vẫn báo khi bị mention trực tiếp tên.
 
 AC03: Tắt một cuộc trò chuyện trực tiếp được.
 
@@ -152,7 +150,7 @@ AC04: Đọc ở bất kỳ thiết bị nào → gỡ thông báo đã hiện �
 
 AC05: Chạm thông báo → mở đúng tin hoặc thread.
 
-AC06: Nội dung push không hiện tin của kênh riêng tư trên màn khoá nếu người dùng bật "Ẩn nội dung" `[giả định]`.
+AC06: Nội dung push không hiện tin của kênh riêng tư trên màn khoá nếu người dùng bật "Ẩn nội dung".
 
 ### UC3. Trang Hoạt động
 
@@ -192,7 +190,7 @@ AC01: Nhắn tin trực tiếp cho người đang trong giờ yên lặng → ô
 
 AC02: Người gửi chọn "Vẫn thông báo" cho việc gấp, tối đa 3 lần mỗi ngày.
 
-## 8. Chỉ số theo dõi `[giả định]`
+## 8. Chỉ số theo dõi
 
 | **Chỉ số** | **Định nghĩa** | **Mục tiêu MVP** |
 | --- | --- | --- |

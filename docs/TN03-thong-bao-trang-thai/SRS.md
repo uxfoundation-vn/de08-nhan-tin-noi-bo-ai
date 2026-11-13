@@ -1,8 +1,8 @@
-> **Mã:** DE08-TN03-SRS · **Trạng thái:** nháp · **Người viết:** Design (mock) · **PRD:** [PRD.md](PRD.md)
+> **Mã:** DE08-TN03-SRS · **Trạng thái:** đã chốt · **Người viết:** Design · **PRD:** [PRD.md](PRD.md)
 
 # UC-DE08-03 - Thông báo và trạng thái online
 
-> **Bản mock.** Giá trị `[giả định]` cần BA xác nhận. Sự kiện tin nhắn đến từ [SRS TN02](../TN02-nhan-tin-realtime/SRS.md); quyền xem theo BR-10 ở [SRS TN01](../TN01-workspace-kenh-thanh-vien/SRS.md).
+> Sự kiện tin nhắn đến từ [SRS TN02](../TN02-nhan-tin-realtime/SRS.md); quyền xem theo BR-10 ở [SRS TN01](../TN01-workspace-kenh-thanh-vien/SRS.md).
 
 ## 1. Tổng quan
 
@@ -12,7 +12,7 @@
 | Actor | Thành viên · App, Web · Dịch vụ thông báo · Dịch vụ trạng thái · APNs, FCM |
 | Phạm vi | Mức thông báo, giờ yên lặng, tạm dừng, định tuyến thiết bị, gom, gỡ thông báo, Hoạt động, trạng thái online, tuỳ chỉnh, cảnh báo ngoài giờ cho người gửi |
 | Ngoài phạm vi | Email tóm tắt, từ khoá theo dõi, đồng bộ lịch, ưu tiên bằng AI |
-| Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
+| Nền tảng | App iOS / Android, Web / Desktop |
 
 ## 2. User Story
 
@@ -30,10 +30,10 @@
 | **Mã** | **Quy tắc** |
 | --- | --- |
 | BR-31 | **Sự kiện liên quan** tới user U với tin M trong hội thoại C (U ≠ người gửi, `can_view(U, C)`): `TRUC_TIEP` (C là tin nhắn trực tiếp có U), `MENTION` (M mention U), `MENTION_KENH` (@kênh, hoặc @here khi U online), `THREAD` (M trả lời thread U theo dõi), `MOI_TIN` (C đặt "Mọi tin") |
-| BR-32 | **Mức thông báo kênh**: `MOI_TIN`, `CHI_MENTION` (mặc định), `TAT`. `TAT` vẫn báo `MENTION` trực tiếp tên `[giả định]`, không báo `MENTION_KENH`. Tin nhắn trực tiếp mặc định bật, tắt được từng cuộc trò chuyện |
+| BR-32 | **Mức thông báo kênh**: `MOI_TIN`, `CHI_MENTION` (mặc định), `TAT`. `TAT` vẫn báo `MENTION` trực tiếp tên, không báo `MENTION_KENH`. Tin nhắn trực tiếp mặc định bật, tắt được từng cuộc trò chuyện |
 | BR-33 | **Không báo** nếu U đang mở đúng hội thoại hoặc thread đó trên thiết bị đang ở trước và tin đã hiện trên màn |
 | BR-34 | **Chặn push** khi: trong giờ yên lặng, đang Tạm dừng, trạng thái Không làm phiền. Sự kiện vẫn vào trang Hoạt động và badge. Hết chặn không gửi bù push cho sự kiện đã bị chặn |
-| BR-35 | **Giờ yên lặng**: danh sách khoảng theo ngày trong tuần, theo múi giờ U; mặc định 19:00–08:00 T2–T6, cả ngày T7, CN `[giả định]`. Tạm dừng: 30 phút, 1 giờ, 2 giờ, tới 08:00 hôm sau |
+| BR-35 | **Giờ yên lặng**: danh sách khoảng theo ngày trong tuần, theo múi giờ U; mặc định 19:00–08:00 T2–T6, cả ngày T7, CN. Tạm dừng: 30 phút, 1 giờ, 2 giờ, tới 08:00 hôm sau |
 | BR-36 | **Định tuyến thiết bị**: U có hoạt động (gõ, cuộn, chạm) trên máy tính trong 120 giây gần nhất → chỉ thông báo máy tính; sau 120 giây sự kiện chưa được đọc → push điện thoại. Không có máy tính đang hoạt động → push ngay |
 | BR-37 | **Gom thông báo**: sự kiện cùng hội thoại (hoặc thread) cho cùng U trong 60 giây gộp thành 1 thông báo "{n} tin mới"; cập nhật thông báo đang hiện thay vì tạo mới |
 | BR-38 | **Gỡ thông báo**: khi `last_read_seq` (BR-27) vượt qua tin của thông báo, gửi lệnh gỡ thông báo tới mọi thiết bị của U; badge = số hội thoại có mention hoặc tin trực tiếp chưa đọc |
@@ -282,7 +282,7 @@ flowchart TD
 
 ## 8. API
 
-| **API** | **Request chính** | **Response chính** | **Timeout / retry** `[giả định]` |
+| **API** | **Request chính** | **Response chính** | **Timeout / retry** |
 | --- | --- | --- | --- |
 | \[NotificationPrefsGet\], \[NotificationPrefsSave\] | Mặc định, theo kênh, giờ yên lặng, tuỳ chọn | prefs | 3s / 2 lần |
 | \[SnoozeSet\] | duration | snoozed_until | 3s / 2 lần |
@@ -342,7 +342,7 @@ sequenceDiagram
 
 ## 10. Yêu cầu phi chức năng
 
-| **Mục** | **Yêu cầu** `[giả định]` |
+| **Mục** | **Yêu cầu** |
 | --- | --- |
 | Hiệu năng | Đánh giá và gửi thông báo ≤ 2 giây sau khi tin `DA_GUI` (không tính chờ 120 giây của BR-36) |
 | Tin cậy | Không gửi trùng thông báo cho một sự kiện; gỡ thông báo đã đọc ≤ 5 giây |

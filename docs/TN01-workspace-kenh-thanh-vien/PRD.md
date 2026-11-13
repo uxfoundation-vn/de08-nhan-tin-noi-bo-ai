@@ -1,8 +1,6 @@
-> **Mã:** DE08-TN01-PRD · **Trạng thái:** nháp · **Người viết:** Design (mock) · **SRS:** [SRS.md](SRS.md)
+> **Mã:** DE08-TN01-PRD · **Trạng thái:** đã chốt · **Người viết:** Design · **SRS:** [SRS.md](SRS.md)
 
 # PRD Workspace, kênh và thành viên (Nhắn tin nội bộ có AI)
-
-> **Bản mock.** Con số đánh dấu `[giả định]` dùng để dựng flow, cần PO xác nhận trước khi dùng.
 
 ## 1. Bối cảnh và vấn đề
 
@@ -22,9 +20,9 @@ Mỗi công ty có một workspace. Trong workspace, cuộc trò chuyện chia t
 
 ### 1.3 Mục tiêu
 
-- Workspace mới có ≥ 10 thành viên hoạt động trong 7 ngày `[giả định]`.
-- Thành viên mới tham gia kênh đầu tiên trong ≤ 2 phút sau khi đăng nhập `[giả định]`.
-- Gỡ quyền thành viên rời công ty có hiệu lực trên mọi thiết bị trong ≤ 1 phút `[giả định]`.
+- Workspace mới có ≥ 10 thành viên hoạt động trong 7 ngày.
+- Thành viên mới tham gia kênh đầu tiên trong ≤ 2 phút sau khi đăng nhập.
+- Gỡ quyền thành viên rời công ty có hiệu lực trên mọi thiết bị trong ≤ 1 phút.
 
 ## 2. Người dùng
 
@@ -74,7 +72,7 @@ Kênh đã xong được lưu trữ thay vì xoá, vẫn đọc và tìm đượ
 
 ## 5. Quy tắc nghiệp vụ
 
-| **Quy tắc** | **Giá trị** `[giả định]` |
+| **Quy tắc** | **Giá trị** |
 | --- | --- |
 | Tên kênh | 1–80 ký tự, chữ thường, số, gạch ngang; không trùng trong workspace |
 | Link mời | Hết hạn sau 7 ngày, tối đa 100 lượt dùng |
@@ -170,7 +168,7 @@ AC02: Chọn kênh loại trừ khỏi AI; kênh đó có biểu tượng "AI kh
 
 AC03: Khách không dùng AI.
 
-## 8. Chỉ số theo dõi `[giả định]`
+## 8. Chỉ số theo dõi
 
 | **Chỉ số** | **Định nghĩa** | **Mục tiêu MVP** |
 | --- | --- | --- |

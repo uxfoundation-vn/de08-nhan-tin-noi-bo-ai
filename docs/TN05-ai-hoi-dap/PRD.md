@@ -1,8 +1,6 @@
-> **Mã:** DE08-TN05-PRD · **Trạng thái:** nháp · **Người viết:** Design (mock) · **SRS:** [SRS.md](SRS.md)
+> **Mã:** DE08-TN05-PRD · **Trạng thái:** đã chốt · **Người viết:** Design · **SRS:** [SRS.md](SRS.md)
 
 # PRD AI hỏi đáp trên lịch sử tin nhắn (Nhắn tin nội bộ có AI)
-
-> **Bản mock.** Con số đánh dấu `[giả định]` dùng để dựng flow, cần PO xác nhận trước khi dùng.
 
 ## 1. Bối cảnh và vấn đề
 
@@ -23,8 +21,8 @@ Rất nhiều kiến thức của công ty nằm trong tin nhắn: quyết đị
 
 ### 1.3 Mục tiêu
 
-- Câu trả lời đầu tiên xuất hiện ≤ 5 giây `[giả định]`.
-- ≥ 70% câu hỏi được đánh giá hữu ích trong số lượt đánh giá `[giả định]`.
+- Câu trả lời đầu tiên xuất hiện ≤ 5 giây.
+- ≥ 70% câu hỏi được đánh giá hữu ích trong số lượt đánh giá.
 - 100% câu trả lời có nguồn, hoặc nói rõ không tìm thấy.
 - 0 câu trả lời dùng tin ngoài quyền của người hỏi.
 
@@ -76,7 +74,7 @@ Câu trả lời luôn có nhãn AI; người dùng có thể mở nguồn để
 
 ## 5. Quy tắc nghiệp vụ
 
-| **Quy tắc** | **Giá trị** `[giả định]` |
+| **Quy tắc** | **Giá trị** |
 | --- | --- |
 | Độ dài câu hỏi | 3–500 ký tự |
 | Phạm vi mặc định | Mọi hội thoại người hỏi xem được, 12 tháng gần nhất |
@@ -179,7 +177,7 @@ AC01: 👍 👎; 👎 chọn lý do: Sai, Thiếu, Nguồn không liên quan, Th
 
 AC02: Sao chép câu trả lời kèm link nguồn.
 
-## 8. Chỉ số theo dõi `[giả định]`
+## 8. Chỉ số theo dõi
 
 | **Chỉ số** | **Định nghĩa** | **Mục tiêu MVP** |
 | --- | --- | --- |

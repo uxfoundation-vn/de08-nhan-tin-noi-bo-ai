@@ -1,8 +1,8 @@
-> **Mã:** DE08-TN04-SRS · **Trạng thái:** nháp · **Người viết:** Design (mock) · **PRD:** [PRD.md](PRD.md)
+> **Mã:** DE08-TN04-SRS · **Trạng thái:** đã chốt · **Người viết:** Design · **PRD:** [PRD.md](PRD.md)
 
 # UC-DE08-04 - AI tóm tắt kênh và thread
 
-> **Bản mock.** Giá trị `[giả định]` cần BA xác nhận. Quyền đọc của AI theo BR-10, BR-14 ở [SRS TN01](../TN01-workspace-kenh-thanh-vien/SRS.md); tin nhắn, mốc đọc theo [SRS TN02](../TN02-nhan-tin-realtime/SRS.md).
+> Quyền đọc của AI theo BR-10, BR-14 ở [SRS TN01](../TN01-workspace-kenh-thanh-vien/SRS.md); tin nhắn, mốc đọc theo [SRS TN02](../TN02-nhan-tin-realtime/SRS.md).
 
 ## 1. Tổng quan
 
@@ -12,7 +12,7 @@
 | Actor | Thành viên (người yêu cầu) · App, Web · Trợ lý AI · Dịch vụ quyền · Dịch vụ tin nhắn · Mô hình ngôn ngữ |
 | Phạm vi | Gợi ý tóm tắt, yêu cầu, lọc quyền, gọi mô hình, kiểm tra trích dẫn, hiển thị từng phần, bộ nhớ đệm, giới hạn lượt, phản hồi, tạo lại, bảng tóm tắt |
 | Ngoài phạm vi | Bản tin theo lịch, tóm tắt file, tóm tắt cuộc gọi, đăng tóm tắt vào kênh |
-| Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
+| Nền tảng | App iOS / Android, Web / Desktop |
 
 ## 2. User Story
 
@@ -34,7 +34,7 @@
 | BR-46 | **Lọc quyền trước mô hình**: tập tin đưa vào mô hình = tin trong phạm vi BR-44 **và** `can_view` với người yêu cầu tại thời điểm tạo; bỏ tin đã xoá; tin đã sửa dùng bản mới nhất. Không bao giờ đưa vào tin từ hội thoại khác |
 | BR-47 | **Đầu vào mô hình**: mỗi tin có mã tham chiếu ngắn (m1, m2…), tên người gửi, thời gian, nội dung văn bản, tên file (không có nội dung file). Nội dung tin được đánh dấu là dữ liệu, không phải chỉ dẫn |
 | BR-48 | **Đầu ra có cấu trúc**, luôn bằng tiếng Việt kể cả khi kênh viết tiếng Anh: `diem_chinh` (≤ 5), `quyet_dinh`, `viec_can_lam` (mô tả, người được giao nếu có, hạn nếu có), `cau_hoi_mo`; mỗi mục ≤ 2 câu và có ≥ 1 mã tham chiếu |
-| BR-49 | **Kiểm tra trích dẫn sau khi tạo**: loại mục có mã tham chiếu không thuộc tập BR-46; nếu > 30% mục bị loại → coi là lỗi chất lượng, tự tạo lại 1 lần; vẫn lỗi → MSG-38 `[giả định]` |
+| BR-49 | **Kiểm tra trích dẫn sau khi tạo**: loại mục có mã tham chiếu không thuộc tập BR-46; nếu > 30% mục bị loại → coi là lỗi chất lượng, tự tạo lại 1 lần; vẫn lỗi → MSG-38 |
 | BR-50 | **Liên quan tới bạn**: mục có người được giao là người yêu cầu, hoặc trích dẫn tin mention người yêu cầu → đưa lên đầu, gắn nhãn |
 | BR-51 | **Không có nội dung**: mô hình trả về rỗng hoặc tập tin chỉ gồm tin rất ngắn, emoji → hiện MSG-37, không tạo mục |
 | BR-52 | **Bộ nhớ đệm**: khoá = (người yêu cầu, hội thoại hoặc thread, phạm vi, `seq` tin mới nhất, phiên bản quyền). Trùng khoá trong 30 phút → trả kết quả cũ, hiện "Tạo lúc {giờ}" |
@@ -141,7 +141,7 @@ flowchart TD
 | A7 | Có tin mới đến trong lúc xem tóm tắt | Đánh dấu đã đọc chỉ tới `covered_to_seq`; tin mới vẫn chưa đọc, **SCR-12** hiện "{n} tin mới sau tóm tắt" |
 | A2 | Đổi phạm vi (Hôm nay, 7 ngày) | Tạo yêu cầu mới |
 | A3 | Có tin mới trong lúc đang xem tóm tắt | Banner "Có {n} tin mới sau tóm tắt" + Cập nhật |
-| A4 | Bấm Dừng khi đang tạo | `DA_HUY`; không tính lượt `[giả định]` |
+| A4 | Bấm Dừng khi đang tạo | `DA_HUY`; không tính lượt |
 | A5 | Người dùng mất quyền kênh trong lúc tạo | Huỷ kết quả, MSG-40 |
 | A6 | Mở lại tóm tắt đã lưu (BR-54) khi tin được trích đã bị xoá, hoặc người dùng không còn quyền xem tin đó | Kiểm tra lại quyền từng trích dẫn khi mở: trích dẫn hỏng hiện "Tin không còn khả dụng", không hiện đoạn trích. Mục còn ít nhất một trích dẫn hợp lệ thì giữ nguyên. Mục mà **mọi** trích dẫn đều hỏng thì ẩn cả nội dung mục, thay bằng "Nội dung đã ẩn vì nguồn không còn khả dụng", để không lộ nội dung ngoài quyền. Quy tắc này dùng chung với phiên hỏi đáp (TN05 BR-69). Mất quyền cả hội thoại → không mở được tóm tắt, MSG-40 |
 
@@ -285,7 +285,7 @@ sequenceDiagram
 
 ## 8. API
 
-| **API** | **Request chính** | **Response chính** | **Timeout / retry** `[giả định]` |
+| **API** | **Request chính** | **Response chính** | **Timeout / retry** |
 | --- | --- | --- | --- |
 | \[AiAvailability\] | conversation_id | available, reason, remaining_quota | 2s / 1 lần |
 | \[SummaryCreate\] | conversation_id hoặc thread_id, scope, regenerate | summary_id, stream | 30s tổng / không tự retry ở client |
@@ -323,7 +323,7 @@ sequenceDiagram
 
 ## 10. Yêu cầu phi chức năng
 
-| **Mục** | **Yêu cầu** `[giả định]` |
+| **Mục** | **Yêu cầu** |
 | --- | --- |
 | Hiệu năng | Mục đầu tiên hiện ≤ 3 giây; hoàn tất ≤ 10 giây (p90) với 200 tin |
 | Bảo mật, quyền | Lọc quyền ở máy chủ trước khi gọi mô hình; kiểm tra lại quyền khi mở trích dẫn; kiểm thử tự động đảm bảo không có tin ngoài quyền trong đầu vào |
