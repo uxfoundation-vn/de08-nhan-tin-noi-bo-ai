@@ -193,9 +193,9 @@ AC02: Tạo lại tạo phiên bản mới; xem lại được phiên bản trư
 
 ## 10. Câu hỏi mở
 
-> Câu nào đã có giá trị ở mục 5 thì giá trị đó là **tạm chốt** `[giả định]` để dựng flow. Câu hỏi vẫn để mở cho đến khi PO xác nhận.
+> Mọi câu hỏi dưới đây đã được PO chốt ngày 13/11/2026; quyết định ghi sau mỗi câu và đã cập nhật vào SRS.
 
-- Tóm tắt có lưu lại để người khác trong kênh dùng chung không (hiện tại: riêng tư)?
+- Tóm tắt có lưu lại để người khác trong kênh dùng chung không (hiện tại: riêng tư)? → **Đã chốt:** Không. Tóm tắt riêng tư (SRS BR-54).
 - Có hỗ trợ tóm tắt bằng tiếng Anh khi kênh viết tiếng Anh? → **Đã chốt:** Không. Tóm tắt luôn bằng tiếng Việt.
-- Ngưỡng 10 tin chưa đọc có phù hợp?
+- Ngưỡng 10 tin chưa đọc có phù hợp? → **Đã chốt:** Giữ 10 tin (SRS BR-45).
 - Có cho người dùng tắt AI cho riêng mình? → **Đã chốt:** Có (SRS BR-43).

@@ -210,9 +210,9 @@ AC03: Tắt đã xem trong cài đặt → không gửi trạng thái của mìn
 
 ## 10. Câu hỏi mở
 
-> Câu nào đã có giá trị ở mục 5 thì giá trị đó là **tạm chốt** `[giả định]` để dựng flow. Câu hỏi vẫn để mở cho đến khi PO xác nhận.
+> Mọi câu hỏi dưới đây đã được PO chốt ngày 13/11/2026; quyết định ghi sau mỗi câu và đã cập nhật vào SRS.
 
-- Có cho xoá tin của người khác với quyền quản trị không?
-- Giới hạn sửa 24 giờ có cần không?
-- Đã xem có nên có ở kênh nhỏ (≤ 10 người)?
+- Có cho xoá tin của người khác với quyền quản trị không? → **Đã chốt:** Có, với quyền quản trị (SRS BR-25).
+- Giới hạn sửa 24 giờ có cần không? → **Đã chốt:** Có, chỉ sửa trong 24 giờ (SRS BR-24).
+- Đã xem có nên có ở kênh nhỏ (≤ 10 người)? → **Đã chốt:** Không. Chỉ tin nhắn trực tiếp (SRS BR-28).
 - Thời gian lưu tin có cần cấu hình theo workspace? → **Đã chốt:** Có, theo workspace (SRS TN01 BR-71).
