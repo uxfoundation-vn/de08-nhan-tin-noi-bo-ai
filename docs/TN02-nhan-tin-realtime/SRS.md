@@ -1,8 +1,8 @@
-> **Mã:** DE08-TN02-SRS · **Trạng thái:** nháp · **Người viết:** Design (mock) · **PRD:** [PRD.md](PRD.md)
+> **Mã:** DE08-TN02-SRS · **Trạng thái:** đã chốt · **Người viết:** Design · **PRD:** [PRD.md](PRD.md)
 
 # UC-DE08-02 - Nhắn tin realtime
 
-> **Bản mock.** Giá trị `[giả định]` cần BA xác nhận. Quyền xem hội thoại theo BR-10 ở [SRS TN01](../TN01-workspace-kenh-thanh-vien/SRS.md); thông báo xem [SRS TN03](../TN03-thong-bao-trang-thai/SRS.md).
+> Quyền xem hội thoại theo BR-10 ở [SRS TN01](../TN01-workspace-kenh-thanh-vien/SRS.md); thông báo xem [SRS TN03](../TN03-thong-bao-trang-thai/SRS.md).
 
 ## 1. Tổng quan
 
@@ -12,7 +12,7 @@
 | Actor | Thành viên · Khách · App, Web · Cổng realtime · Dịch vụ tin nhắn · Kho file · Dịch vụ quét file |
 | Phạm vi | Soạn, gửi, nhận, thread, file, sửa, xoá, reaction, mốc đọc, đã xem, bản nháp, kết nối lại, lấy bù |
 | Ngoài phạm vi | Tin thoại, video, hẹn giờ gửi, mã hoá đầu cuối, chuyển tiếp tin, tìm kiếm tin nhắn theo từ khoá |
-| Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
+| Nền tảng | App iOS / Android, Web / Desktop |
 
 ## 2. User Story
 
@@ -34,12 +34,12 @@
 | BR-17 | **client_id**: mỗi tin sinh UUID trên máy khi bấm Gửi; máy chủ idempotent theo (user_id, client_id) |
 | BR-18 | **Thứ tự**: máy chủ gán `seq` tăng dần theo hội thoại; client sắp theo `seq`; tin chưa có `seq` (đang gửi) hiện cuối theo thời điểm tạo |
 | BR-19 | **Trạng thái gửi** (trên máy người gửi): `DANG_GUI` → `DA_GUI` khi có `seq`; thử tự động 3 lần (1s, 4s, 10s) → `LOI` |
-| BR-20 | **Hàng đợi ngoại tuyến**: tin lưu trên máy trước khi gửi; mất kết nối → `CHO_MANG`; có kết nối → gửi tuần tự theo thời điểm tạo; giữ 7 ngày rồi chuyển `LOI` `[giả định]` |
+| BR-20 | **Hàng đợi ngoại tuyến**: tin lưu trên máy trước khi gửi; mất kết nối → `CHO_MANG`; có kết nối → gửi tuần tự theo thời điểm tạo; giữ 7 ngày rồi chuyển `LOI` |
 | BR-21 | **Mention**: `@người` (thành viên xem được hội thoại), `@kênh` (mọi thành viên kênh), `@here` (thành viên đang online). `@kênh`, `@here` trong kênh > 20 người → hỏi xác nhận (MSG-14) |
 | BR-22 | **Thread**: trả lời gắn `parent_id`; thread chỉ một cấp; "Gửi kèm vào kênh" tạo bản sao hiển thị trong kênh trỏ về thread. Người viết tin gốc, người trả lời, người được mention trong thread tự **theo dõi** thread |
-| BR-23 | **File**: tối đa 10 file mỗi tin, 100 MB mỗi file; chặn `.exe`, `.bat`, `.sh`, `.msi`, `.apk`, `.dmg` `[giả định]`; tải lên chia khúc 5 MB, tiếp tục được khi lỗi; quét mã độc; file bị đánh dấu nguy hiểm → thay bằng MSG-17 |
+| BR-23 | **File**: tối đa 10 file mỗi tin, 100 MB mỗi file; chặn `.exe`, `.bat`, `.sh`, `.msi`, `.apk`, `.dmg`; tải lên chia khúc 5 MB, tiếp tục được khi lỗi; quét mã độc; file bị đánh dấu nguy hiểm → thay bằng MSG-17 |
 | BR-24 | **Sửa**: chỉ người gửi, trong 24 giờ; giữ lịch sử phiên bản ở máy chủ; hiện "(đã sửa)". Mention mới thêm khi sửa → gửi thông báo cho người mới được mention |
-| BR-25 | **Xoá**: người gửi bất kỳ lúc nào; quản trị xoá được tin của người khác `[giả định]`. Tin có thread → thay bằng "Tin nhắn đã bị xoá", giữ thread; không có thread → gỡ hẳn. File đính kèm bị xoá theo |
+| BR-25 | **Xoá**: người gửi bất kỳ lúc nào; quản trị xoá được tin của người khác. Tin có thread → thay bằng "Tin nhắn đã bị xoá", giữ thread; không có thread → gỡ hẳn. File đính kèm bị xoá theo |
 | BR-26 | **Reaction**: tối đa 20 emoji khác nhau mỗi tin; mỗi người một lần mỗi emoji |
 | BR-27 | **Mốc đọc** `last_read_seq` theo (user, hội thoại): cập nhật khi tin cuối cùng hiện trên màn ≥ 1 giây và app đang ở trước; đồng bộ tới mọi thiết bị của user. Thread có mốc đọc riêng |
 | BR-28 | **Đã xem**: chỉ tin nhắn trực tiếp; hiện người khác đã xem tới tin nào theo `last_read_seq` của họ; user tắt `read_receipts` → không phát mốc của mình cho người khác và không thấy mốc của người khác |
@@ -386,7 +386,7 @@ flowchart TD
 
 ## 8. API
 
-| **API** | **Request chính** | **Response chính** | **Timeout / retry** `[giả định]` |
+| **API** | **Request chính** | **Response chính** | **Timeout / retry** |
 | --- | --- | --- | --- |
 | \[RealtimeConnect\] | token, device_id, last_seq theo hội thoại | Tin bù, trạng thái | Ping 25 giây; kết nối lại theo 4.2 |
 | \[MessageSend\] | conversation_id, client_id, text, file_ids, parent_id, also_send_to_channel | message_id, seq, created_at | 5s / BR-19 |
@@ -430,7 +430,7 @@ flowchart TD
 
 ## 10. Yêu cầu phi chức năng
 
-| **Mục** | **Yêu cầu** `[giả định]` |
+| **Mục** | **Yêu cầu** |
 | --- | --- |
 | Hiệu năng | Gửi tới nhận ≤ 1 giây (p95); mở hội thoại ≤ 500 ms từ cache; cuộn mượt 60 khung hình/giây với 10.000 tin |
 | Tin cậy | Không mất, không trùng tin (BR-17, BR-20); thứ tự theo `seq`; lấy bù sau kết nối lại |

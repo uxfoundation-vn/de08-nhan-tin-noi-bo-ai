@@ -1,8 +1,6 @@
-> **Mã:** DE08-TN02-PRD · **Trạng thái:** nháp · **Người viết:** Design (mock) · **SRS:** [SRS.md](SRS.md)
+> **Mã:** DE08-TN02-PRD · **Trạng thái:** đã chốt · **Người viết:** Design · **SRS:** [SRS.md](SRS.md)
 
 # PRD Nhắn tin realtime (Nhắn tin nội bộ có AI)
-
-> **Bản mock.** Con số đánh dấu `[giả định]` dùng để dựng flow, cần PO xác nhận trước khi dùng.
 
 ## 1. Bối cảnh và vấn đề
 
@@ -23,9 +21,9 @@ Nhắn tin là hoạt động chính của sản phẩm. Mỗi người dùng th
 
 ### 1.3 Mục tiêu
 
-- Tin nhắn tới người nhận đang online ≤ 1 giây (p95) `[giả định]`.
+- Tin nhắn tới người nhận đang online ≤ 1 giây (p95).
 - 0 tin bị mất khi gửi lúc mất mạng rồi có mạng lại.
-- Trạng thái đã đọc đồng bộ giữa các thiết bị ≤ 3 giây `[giả định]`.
+- Trạng thái đã đọc đồng bộ giữa các thiết bị ≤ 3 giây.
 
 ## 2. Người dùng
 
@@ -77,7 +75,7 @@ Người gửi luôn biết tin của mình đang gửi, đã gửi, hay lỗi; 
 
 ## 5. Quy tắc nghiệp vụ
 
-| **Quy tắc** | **Giá trị** `[giả định]` |
+| **Quy tắc** | **Giá trị** |
 | --- | --- |
 | Độ dài tin | Tối đa 4.000 ký tự |
 | File | Tối đa 100 MB mỗi file, 10 file mỗi tin |
@@ -187,7 +185,7 @@ AC02: Nhóm nhỏ hiện ảnh nhỏ những người đã xem.
 
 AC03: Tắt đã xem trong cài đặt → không gửi trạng thái của mình, không thấy của người khác.
 
-## 8. Chỉ số theo dõi `[giả định]`
+## 8. Chỉ số theo dõi
 
 | **Chỉ số** | **Định nghĩa** | **Mục tiêu MVP** |
 | --- | --- | --- |

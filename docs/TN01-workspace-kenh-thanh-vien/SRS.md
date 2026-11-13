@@ -1,8 +1,8 @@
-> **Mã:** DE08-TN01-SRS · **Trạng thái:** nháp · **Người viết:** Design (mock) · **PRD:** [PRD.md](PRD.md)
+> **Mã:** DE08-TN01-SRS · **Trạng thái:** đã chốt · **Người viết:** Design · **PRD:** [PRD.md](PRD.md)
 
 # UC-DE08-01 - Workspace, kênh và thành viên
 
-> **Bản mock.** Giá trị `[giả định]` cần BA xác nhận. Quy tắc quyền ở đây được TN02–TN05 dùng lại; đặc biệt BR-10 là nền cho quyền đọc của AI.
+> Quy tắc quyền ở đây được TN02–TN05 dùng lại; đặc biệt BR-10 là nền cho quyền đọc của AI.
 
 ## 1. Tổng quan
 
@@ -12,7 +12,7 @@
 | Actor | Chủ sở hữu · Quản trị · Thành viên · Khách · App, Web · Máy chủ · Dịch vụ email |
 | Phạm vi | Workspace, lời mời, tự tham gia, vai trò, kênh công khai, riêng tư, mặc định, tham gia, rời, mời, xoá khỏi kênh, lưu trữ, vô hiệu hoá, cài đặt AI |
 | Ngoài phạm vi | Liên kết workspace, SCIM, nhóm người dùng, riêng tư → công khai |
-| Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
+| Nền tảng | App iOS / Android, Web / Desktop |
 
 ## 2. User Story
 
@@ -37,12 +37,12 @@
 | BR-06 | **Kênh**: tên 1–80 ký tự, chữ thường, số, gạch ngang (tự chuẩn hoá khi gõ: bỏ dấu, khoảng trắng → gạch ngang); duy nhất trong workspace kể cả kênh lưu trữ; mô tả ≤ 250 ký tự |
 | BR-07 | **Loại kênh**: `CONG_KHAI` (mọi Thành viên thấy, tự tham gia), `RIENG_TU` (chỉ thành viên kênh thấy, vào bằng lời mời). Khách không tự tham gia kênh công khai |
 | BR-08 | **Kênh mặc định**: #chung (không rời được, không lưu trữ được) và tối đa 3 kênh công khai do quản trị chọn; người mới tự tham gia |
-| BR-09 | **Quyền tạo kênh**: Thành viên tạo kênh công khai và riêng tư `[giả định]`; Khách không tạo kênh |
+| BR-09 | **Quyền tạo kênh**: Thành viên tạo kênh công khai và riêng tư; Khách không tạo kênh |
 | BR-10 | **Quyền xem hội thoại** (`can_view(user, conversation)`): công khai → user là Thành viên trở lên của workspace, hoặc là Khách đã được mời vào kênh; riêng tư và tin nhắn trực tiếp → user là thành viên hội thoại. Khách được mở tin nhắn trực tiếp 1-1 với mọi Thành viên của workspace, kể cả khi không chung kênh; Thành viên cũng mở được với Khách. Áp dụng cho danh sách kênh, tìm kênh, tin nhắn, thông báo, AI |
 | BR-11 | **Lưu trữ kênh**: người tạo kênh hoặc quản trị; kênh `LUU_TRU` chỉ đọc, vẫn hiện trong tìm kênh và vẫn thuộc phạm vi AI hỏi đáp (TN05); thành viên giữ nguyên; khôi phục được |
 | BR-12 | **Công khai → riêng tư**: chỉ quản trị; thành viên hiện tại giữ nguyên; không đảo ngược. Tin nhắn cũ trước thời điểm chuyển chỉ còn thành viên kênh thấy |
 | BR-13 | **Vô hiệu hoá thành viên**: thu hồi mọi phiên, ngắt kết nối realtime ≤ 1 phút; giữ tin nhắn, hiện tên kèm "(đã vô hiệu hoá)"; không còn trong danh sách mention, tìm người |
-| BR-71 | **Thời gian lưu tin** (chủ sở hữu, quản trị cấu hình theo workspace): Vĩnh viễn (mặc định), 1 năm, 2 năm, 5 năm `[giả định]`. Tác vụ hằng ngày xoá hẳn tin và file quá hạn, gỡ khỏi chỉ mục AI (TN05) ≤ 24 giờ; tin gốc của thread bị xoá theo quy tắc xoá của TN02 BR-25. Rút ngắn thời gian lưu → MSG-56 xác nhận, áp dụng từ lần chạy tác vụ kế tiếp |
+| BR-71 | **Thời gian lưu tin** (chủ sở hữu, quản trị cấu hình theo workspace): Vĩnh viễn (mặc định), 1 năm, 2 năm, 5 năm. Tác vụ hằng ngày xoá hẳn tin và file quá hạn, gỡ khỏi chỉ mục AI (TN05) ≤ 24 giờ; tin gốc của thread bị xoá theo quy tắc xoá của TN02 BR-25. Rút ngắn thời gian lưu → MSG-56 xác nhận, áp dụng từ lần chạy tác vụ kế tiếp |
 | BR-14 | **Cài đặt AI** (quản trị): `ai_enabled` của workspace, **mặc định bật** khi tạo workspace; danh sách kênh `ai_excluded`. Khách luôn không dùng AI. AI chỉ đọc hội thoại thoả BR-10 với người hỏi **và** không thuộc `ai_excluded` |
 
 ## 4. Trạng thái
@@ -368,7 +368,7 @@ Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (m�
 
 ## 8. API
 
-| **API** | **Request chính** | **Response chính** | **Timeout / retry** `[giả định]` |
+| **API** | **Request chính** | **Response chính** | **Timeout / retry** |
 | --- | --- | --- | --- |
 | \[WorkspaceCreate\] | name, slug, domains | workspace_id | 5s / 1 lần |
 | \[InviteSend\] | emails, role, channel_ids | Kết quả từng email | 8s / 2 lần |
@@ -415,7 +415,7 @@ Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (m�
 
 ## 10. Yêu cầu phi chức năng
 
-| **Mục** | **Yêu cầu** `[giả định]` |
+| **Mục** | **Yêu cầu** |
 | --- | --- |
 | Hiệu năng | \[PermissionCheck\] ≤ 10 ms (có cache, xoá cache khi thành viên kênh đổi); thanh bên tải ≤ 1 giây với 200 kênh |
 | Bảo mật | BR-10 kiểm tra ở máy chủ cho mọi API; không trả tên kênh riêng tư cho người ngoài; vô hiệu hoá ≤ 1 phút |

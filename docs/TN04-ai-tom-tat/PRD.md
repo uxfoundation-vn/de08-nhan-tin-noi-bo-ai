@@ -1,8 +1,6 @@
-> **Mã:** DE08-TN04-PRD · **Trạng thái:** nháp · **Người viết:** Design (mock) · **SRS:** [SRS.md](SRS.md)
+> **Mã:** DE08-TN04-PRD · **Trạng thái:** đã chốt · **Người viết:** Design · **SRS:** [SRS.md](SRS.md)
 
 # PRD AI tóm tắt kênh và thread (Nhắn tin nội bộ có AI)
-
-> **Bản mock.** Con số đánh dấu `[giả định]` dùng để dựng flow, cần PO xác nhận trước khi dùng.
 
 ## 1. Bối cảnh và vấn đề
 
@@ -22,8 +20,8 @@ Sau một buổi họp dài hay vài ngày nghỉ phép, người dùng quay l�
 
 ### 1.3 Mục tiêu
 
-- Tóm tắt kênh có ≥ 50 tin chưa đọc được tạo trong ≤ 10 giây `[giả định]`.
-- ≥ 80% đánh giá tóm tắt là hữu ích (👍) trong số lượt đánh giá `[giả định]`.
+- Tóm tắt kênh có ≥ 50 tin chưa đọc được tạo trong ≤ 10 giây.
+- ≥ 80% đánh giá tóm tắt là hữu ích (👍) trong số lượt đánh giá.
 - 100% ý trong tóm tắt có trích dẫn về tin gốc.
 - 0 trường hợp tóm tắt chứa nội dung người dùng không có quyền xem.
 
@@ -75,7 +73,7 @@ Việc giao cho người đọc và mention người đọc được đưa lên 
 
 ## 5. Quy tắc nghiệp vụ
 
-| **Quy tắc** | **Giá trị** `[giả định]` |
+| **Quy tắc** | **Giá trị** |
 | --- | --- |
 | Tóm tắt kênh | Khi có ≥ 10 tin chưa đọc (ít hơn thì gợi ý đọc trực tiếp) |
 | Phạm vi tối đa | 500 tin gần nhất trong phạm vi yêu cầu; nhiều hơn thì nói rõ phần đã tóm tắt |
@@ -170,7 +168,7 @@ AC01: 👍 👎 trên mỗi tóm tắt; 👎 chọn lý do: Sai thông tin, Thi�
 
 AC02: Tạo lại tạo phiên bản mới; xem lại được phiên bản trước trong phiên.
 
-## 8. Chỉ số theo dõi `[giả định]`
+## 8. Chỉ số theo dõi
 
 | **Chỉ số** | **Định nghĩa** | **Mục tiêu MVP** |
 | --- | --- | --- |
