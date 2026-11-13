@@ -128,7 +128,7 @@ AC04: Mỗi mục có số trích dẫn; chạm mở tin gốc trong hội tho�
 
 AC05: Hiện "Tóm tắt {n} tin từ {thời điểm} đến {thời điểm} · Do AI tạo, có thể sai sót".
 
-AC06: Có "Đánh dấu đã đọc" sau khi xem tóm tắt.
+AC06: Có "Đánh dấu đã đọc" sau khi xem tóm tắt; chỉ đánh dấu tới tin cuối cùng đã được tóm tắt, tin đến sau vẫn là chưa đọc. Tóm tắt bị cắt ở 500 tin thì hỏi xác nhận trước.
 
 #### US1.2 Tóm tắt theo khoảng thời gian
 
@@ -192,6 +192,8 @@ AC02: Tạo lại tạo phiên bản mới; xem lại được phiên bản trư
 | Dữ liệu ra nhà cung cấp mô hình | Lo ngại bảo mật | Hợp đồng không lưu, không huấn luyện; quản trị tắt được AI |
 
 ## 10. Câu hỏi mở
+
+> Câu nào đã có giá trị ở mục 5 thì giá trị đó là **tạm chốt** `[giả định]` để dựng flow. Câu hỏi vẫn để mở cho đến khi PO xác nhận.
 
 - Tóm tắt có lưu lại để người khác trong kênh dùng chung không (hiện tại: riêng tư)?
 - Có hỗ trợ tóm tắt bằng tiếng Anh khi kênh viết tiếng Anh?

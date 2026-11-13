@@ -30,7 +30,7 @@
 | **Mã** | **Quy tắc** |
 | --- | --- |
 | BR-43 | **Điều kiện dùng**: workspace `ai_enabled = true`; người yêu cầu không phải Khách; hội thoại không thuộc `ai_excluded`; `can_view(người yêu cầu, hội thoại)` |
-| BR-44 | **Phạm vi tin**: `UNREAD` (từ `last_read_seq + 1` tới tin mới nhất), `TODAY`, `LAST_7_DAYS`, hoặc `THREAD` (tin gốc + mọi trả lời). Giới hạn 500 tin gần nhất trong phạm vi; vượt → ghi `truncated`, báo MSG-35 |
+| BR-44 | **Phạm vi tin**: `UNREAD` (từ `last_read_seq + 1` tới tin mới nhất), `TODAY`, `LAST_7_DAYS`, hoặc `THREAD` (tin gốc + mọi trả lời). Giới hạn 500 tin gần nhất trong phạm vi; vượt → ghi `truncated`, báo MSG-35. Mỗi tóm tắt lưu `covered_from_seq` và `covered_to_seq` là `seq` nhỏ nhất và lớn nhất của tin đã lấy. **Đánh dấu đã đọc** đặt `last_read_seq` = `covered_to_seq`, không phải tin mới nhất lúc bấm, nên tin đến trong lúc xem tóm tắt vẫn là chưa đọc. Tóm tắt `truncated` → hỏi xác nhận MSG-35b trước khi đánh dấu, vì các tin cũ hơn `covered_from_seq` chưa được tóm tắt cũng sẽ thành đã đọc |
 | BR-45 | **Ngưỡng gợi ý**: banner gợi ý khi `UNREAD` ≥ 10 tin; thread có nút khi ≥ 10 trả lời. Nút ✨ ở header luôn có khi thoả BR-43 |
 | BR-46 | **Lọc quyền trước mô hình**: tập tin đưa vào mô hình = tin trong phạm vi BR-44 **và** `can_view` với người yêu cầu tại thời điểm tạo; bỏ tin đã xoá; tin đã sửa dùng bản mới nhất. Không bao giờ đưa vào tin từ hội thoại khác |
 | BR-47 | **Đầu vào mô hình**: mỗi tin có mã tham chiếu ngắn (m1, m2…), tên người gửi, thời gian, nội dung văn bản, tên file (không có nội dung file). Nội dung tin được đánh dấu là dữ liệu, không phải chỉ dẫn |
@@ -119,7 +119,7 @@ flowchart TD
   R -->|Chạm trích dẫn| S["Mở tin gốc, tô sáng"]
   R -->|👍 👎| T["Phản hồi BR-55"]
   R -->|Tạo lại| L
-  R -->|Đánh dấu đã đọc| U["ReadMark tới tin mới nhất trong phạm vi"]
+  R -->|Đánh dấu đã đọc| U["ReadMark tới covered_to_seq, BR-44"]
 ```
 
 **Luồng chính**
@@ -138,12 +138,13 @@ flowchart TD
 
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
-| A1 | Vượt 500 tin | MSG-35 trên đầu tóm tắt |
+| A1 | Vượt 500 tin | MSG-35 trên đầu tóm tắt; bấm Đánh dấu đã đọc thì hỏi xác nhận MSG-35b (BR-44) |
+| A7 | Có tin mới đến trong lúc xem tóm tắt | Đánh dấu đã đọc chỉ tới `covered_to_seq`; tin mới vẫn chưa đọc, **SCR-12** hiện "{n} tin mới sau tóm tắt" |
 | A2 | Đổi phạm vi (Hôm nay, 7 ngày) | Tạo yêu cầu mới |
 | A3 | Có tin mới trong lúc đang xem tóm tắt | Banner "Có {n} tin mới sau tóm tắt" + Cập nhật |
 | A4 | Bấm Dừng khi đang tạo | `DA_HUY`; không tính lượt `[giả định]` |
 | A5 | Người dùng mất quyền kênh trong lúc tạo | Huỷ kết quả, MSG-40 |
-| A6 | Mở lại tóm tắt đã lưu (BR-54) khi tin được trích đã bị xoá, hoặc người dùng không còn quyền xem tin đó | Kiểm tra lại quyền từng trích dẫn khi mở: trích dẫn hỏng hiện "Tin không còn khả dụng", không hiện đoạn trích; mục giữ nguyên kèm nhãn "Nguồn không còn". Mất quyền cả hội thoại → không mở được tóm tắt, MSG-40 |
+| A6 | Mở lại tóm tắt đã lưu (BR-54) khi tin được trích đã bị xoá, hoặc người dùng không còn quyền xem tin đó | Kiểm tra lại quyền từng trích dẫn khi mở: trích dẫn hỏng hiện "Tin không còn khả dụng", không hiện đoạn trích. Mục còn ít nhất một trích dẫn hợp lệ thì giữ nguyên. Mục mà **mọi** trích dẫn đều hỏng thì ẩn cả nội dung mục, thay bằng "Nội dung đã ẩn vì nguồn không còn khả dụng", để không lộ nội dung ngoài quyền. Quy tắc này dùng chung với phiên hỏi đáp (TN05 BR-69). Mất quyền cả hội thoại → không mở được tóm tắt, MSG-40 |
 
 **Luồng lỗi**
 
@@ -193,7 +194,7 @@ flowchart TD
 | 2 | Hệ thống | Hiện danh sách hội thoại thoả BR-43 có từ 10 tin chưa đọc, sắp theo số mention của người dùng rồi số tin chưa đọc |
 | 3 | Thành viên | Chạm một hội thoại |
 | 4 | Hệ thống | Chạy UC-15, hiện kết quả trong bảng **SCR-12** |
-| 5 | Thành viên | Bấm Đánh dấu đã đọc, sang hội thoại tiếp theo |
+| 5 | Thành viên | Bấm Đánh dấu đã đọc (tới `covered_to_seq`, BR-44), sang hội thoại tiếp theo |
 
 **Luồng thay thế**
 
@@ -280,7 +281,7 @@ sequenceDiagram
 | 4 | Điểm chính, Quyết định, Việc cần làm, Câu hỏi mở | Sections | Mỗi mục: 1–2 câu, trích dẫn dạng [1] [2]; việc có ảnh người được giao, hạn |
 | 5 | Trích dẫn | Chip số | Rê chuột hoặc giữ lâu: xem trước tin; chạm: mở tin gốc |
 | 6 | Nhãn AI | Footer | "Do AI tạo, có thể sai sót · Chỉ bạn thấy tóm tắt này" |
-| 7 | Hành động | Buttons | 👍 · 👎 (lý do) · Tạo lại · Đánh dấu đã đọc |
+| 7 | Hành động | Buttons | 👍 · 👎 (lý do) · Tạo lại · Đánh dấu đã đọc (tới `covered_to_seq`, BR-44) |
 | 8 | Trạng thái | Theo 4.1 | Khung xương, Dừng, lỗi, rỗng |
 
 ## 8. API
@@ -312,6 +313,7 @@ sequenceDiagram
 | MSG-33 | Banner **SCR-06** | {n} tin chưa đọc. \[✨ Tóm tắt\] |
 | MSG-34 | **SCR-12** | Đang đọc {n} tin… |
 | MSG-35 | **SCR-12** | Kênh có nhiều tin, đây là tóm tắt 500 tin gần nhất |
+| MSG-35b | Popup | Còn {k} tin cũ hơn chưa được tóm tắt. Đánh dấu tất cả là đã đọc? \[Huỷ\] \[Đánh dấu đã đọc\] |
 | MSG-36 | Footer **SCR-12** | Do AI tạo, có thể sai sót. Chỉ bạn thấy tóm tắt này |
 | MSG-37 | **SCR-12** | Không có nội dung đáng chú ý trong các tin này |
 | MSG-38 | **SCR-12** | Chưa tạo được tóm tắt đáng tin cậy. \[Thử lại\] |

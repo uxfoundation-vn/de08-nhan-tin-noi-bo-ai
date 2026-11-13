@@ -34,13 +34,13 @@
 | BR-02 | **Vai trò**: `CHU_SO_HUU` (1 người, chuyển nhượng được), `QUAN_TRI`, `THANH_VIEN`, `KHACH`. Quản trị không đổi vai trò Chủ sở hữu, không vô hiệu hoá Chủ sở hữu |
 | BR-03 | **Lời mời email**: vai trò Thành viên hoặc Khách (Khách phải chọn ≥ 1 kênh); hết hạn 7 ngày; gửi lại tạo mã mới, vô hiệu mã cũ |
 | BR-04 | **Link mời**: vai trò Thành viên; hết hạn 7 ngày hoặc 100 lượt; quản trị thu hồi được |
-| BR-05 | **Tự tham gia**: bật, tắt; email đã xác minh thuộc tên miền khai báo → vào với vai trò Thành viên, không cần lời mời |
+| BR-05 | **Tự tham gia**: bật, tắt; email đã xác minh thuộc tên miền khai báo → vào với vai trò Thành viên, không cần lời mời. Không áp dụng cho email đã có tài khoản `DA_VO_HIEU` trong workspace: người bị quản trị vô hiệu hoá chỉ vào lại khi quản trị Kích hoạt lại; người tự rời chỉ vào lại bằng lời mời mới (UC-01 A2, A3). Người bị chặn thấy màn báo cần quản trị kích hoạt lại hoặc gửi lời mời |
 | BR-06 | **Kênh**: tên 1–80 ký tự, chữ thường, số, gạch ngang (tự chuẩn hoá khi gõ: bỏ dấu, khoảng trắng → gạch ngang); duy nhất trong workspace kể cả kênh lưu trữ; mô tả ≤ 250 ký tự |
 | BR-07 | **Loại kênh**: `CONG_KHAI` (mọi Thành viên thấy, tự tham gia), `RIENG_TU` (chỉ thành viên kênh thấy, vào bằng lời mời). Khách không tự tham gia kênh công khai |
 | BR-08 | **Kênh mặc định**: #chung (không rời được, không lưu trữ được) và tối đa 3 kênh công khai do quản trị chọn; người mới tự tham gia |
 | BR-09 | **Quyền tạo kênh**: Thành viên tạo kênh công khai và riêng tư `[giả định]`; Khách không tạo kênh |
-| BR-10 | **Quyền xem hội thoại** (`can_view(user, conversation)`): công khai → user là Thành viên trở lên của workspace, hoặc là Khách đã được mời vào kênh; riêng tư và tin nhắn trực tiếp → user là thành viên hội thoại. Áp dụng cho danh sách kênh, tin nhắn, tìm kiếm, thông báo, AI |
-| BR-11 | **Lưu trữ kênh**: người tạo kênh hoặc quản trị; kênh `LUU_TRU` chỉ đọc, vẫn tìm kiếm được; thành viên giữ nguyên; khôi phục được |
+| BR-10 | **Quyền xem hội thoại** (`can_view(user, conversation)`): công khai → user là Thành viên trở lên của workspace, hoặc là Khách đã được mời vào kênh; riêng tư và tin nhắn trực tiếp → user là thành viên hội thoại. Áp dụng cho danh sách kênh, tìm kênh, tin nhắn, thông báo, AI |
+| BR-11 | **Lưu trữ kênh**: người tạo kênh hoặc quản trị; kênh `LUU_TRU` chỉ đọc, vẫn hiện trong tìm kênh và vẫn thuộc phạm vi AI hỏi đáp (TN05); thành viên giữ nguyên; khôi phục được |
 | BR-12 | **Công khai → riêng tư**: chỉ quản trị; thành viên hiện tại giữ nguyên; không đảo ngược. Tin nhắn cũ trước thời điểm chuyển chỉ còn thành viên kênh thấy |
 | BR-13 | **Vô hiệu hoá thành viên**: thu hồi mọi phiên, ngắt kết nối realtime ≤ 1 phút; giữ tin nhắn, hiện tên kèm "(đã vô hiệu hoá)"; không còn trong danh sách mention, tìm người |
 | BR-14 | **Cài đặt AI** (quản trị): `ai_enabled` của workspace; danh sách kênh `ai_excluded`. Khách luôn không dùng AI. AI chỉ đọc hội thoại thoả BR-10 với người hỏi **và** không thuộc `ai_excluded` |
@@ -59,7 +59,7 @@ stateDiagram-v2
   DANG_HOAT_DONG --> DA_VO_HIEU : Thành viên tự rời workspace
   [*] --> DANG_HOAT_DONG : Tự tham gia theo tên miền, link mời
   DANG_HOAT_DONG --> DA_VO_HIEU : Quản trị vô hiệu hoá
-  DA_VO_HIEU --> DANG_HOAT_DONG : Kích hoạt lại
+  DA_VO_HIEU --> DANG_HOAT_DONG : Quản trị kích hoạt lại, hoặc người tự rời chấp nhận lời mời mới
 ```
 
 ### 4.2 Kênh
@@ -129,8 +129,8 @@ flowchart TD
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
 | A1 | Quản trị thu hồi lời mời email chưa được chấp nhận | Ở **SCR-05**, dòng lời mời `DA_MOI` có nút Thu hồi; mã mời vô hiệu ngay, người nhận bấm link thấy MSG-02 |
-| A2 | Thành viên tự rời workspace | Hồ sơ → Rời workspace, hỏi xác nhận; xử lý như vô hiệu hoá (BR-13), muốn vào lại cần lời mời mới. Chủ sở hữu phải chuyển nhượng quyền trước khi rời (BR-02) |
-| A3 | Người được mời đã là thành viên bị vô hiệu hoá | Không gửi lời mời; gợi ý quản trị Kích hoạt lại ở **SCR-05** |
+| A2 | Thành viên tự rời workspace | Hồ sơ → Rời workspace, hỏi xác nhận; xử lý như vô hiệu hoá (BR-13), ghi `deactivated_reason` = `TU_ROI`; muốn vào lại cần lời mời mới, chấp nhận lời mời thì tài khoản cũ được kích hoạt lại. Chủ sở hữu phải chuyển nhượng quyền trước khi rời (BR-02) |
+| A3 | Người được mời đã là thành viên `DA_VO_HIEU` | Bị quản trị vô hiệu hoá (`deactivated_reason` = `QUAN_TRI`) → không gửi lời mời; gợi ý quản trị Kích hoạt lại ở **SCR-05**. Tự rời (`TU_ROI`) → gửi lời mời bình thường; chấp nhận thì tài khoản cũ về `DANG_HOAT_DONG` |
 | A4 | Mời bằng link | Tạo link có hạn 7 ngày, 100 lượt (BR-04) |
 | A5 | Bật Tự tham gia theo tên miền | Người có email đúng tên miền tự vào được (BR-05) |
 | A6 | Danh sách có email lỗi | Đánh dấu email lỗi, vẫn gửi phần còn lại (MSG-12) |
@@ -210,7 +210,7 @@ flowchart TD
   G -->|Không| G1["Ẩn nút"]
   G -->|Có| H["MSG-08 cảnh báo không đảo ngược"]
   H --> I["RIENG_TU BR-12"]
-  I --> J["Người không phải thành viên mất kênh khỏi tìm kiếm, AI"]
+  I --> J["Người không phải thành viên mất kênh khỏi tìm kênh, AI"]
 ```
 
 **Luồng chính**
@@ -220,14 +220,14 @@ flowchart TD
 | 1 | Người tạo kênh hoặc quản trị | Mở **SCR-04** Thông tin kênh, chọn Lưu trữ |
 | 2 | Hệ thống | MSG-07 hỏi xác nhận |
 | 3 | Người tạo kênh hoặc quản trị | Xác nhận |
-| 4 | Hệ thống | Kênh `LUU_TRU`: chỉ đọc, có banner, vẫn tìm kiếm được |
+| 4 | Hệ thống | Kênh `LUU_TRU`: chỉ đọc, có banner, vẫn hiện trong tìm kênh (BR-11) |
 
 **Luồng thay thế**
 
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
 | A1 | Khôi phục kênh đã lưu trữ | Kênh về trạng thái trước khi lưu trữ |
-| A2 | Quản trị chọn Chuyển thành riêng tư | MSG-08 cảnh báo không đảo ngược → kênh `RIENG_TU` (BR-12); người không phải thành viên mất kênh khỏi tìm kiếm và phạm vi AI |
+| A2 | Quản trị chọn Chuyển thành riêng tư | MSG-08 cảnh báo không đảo ngược → kênh `RIENG_TU` (BR-12); người không phải thành viên mất kênh khỏi tìm kênh và phạm vi AI |
 
 **Luồng lỗi**
 
@@ -274,7 +274,7 @@ sequenceDiagram
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
 | A1 | Kích hoạt lại | Thành viên về `DANG_HOAT_DONG`, đăng nhập lại được |
-| A2 | Thành viên tự rời workspace | Xử lý như vô hiệu hoá; muốn vào lại cần lời mời mới |
+| A2 | Thành viên tự rời workspace | Xử lý như vô hiệu hoá, ghi `deactivated_reason` = `TU_ROI`; muốn vào lại cần lời mời mới (UC-01 A3), không tự tham gia lại theo tên miền (BR-05) |
 
 **Luồng lỗi**
 
@@ -403,7 +403,7 @@ Màn chia 2 bước: tạo workspace (mục 1–4), rồi mời thành viên (m�
 | MSG-04 | Inline | #{tên} đang được lưu trữ. \[Khôi phục kênh\] |
 | MSG-05 | Popup | Rời kênh riêng tư #{tên}? Bạn cần được mời để vào lại. \[Huỷ\] \[Rời kênh\] |
 | MSG-06 | Toast | Bạn đã được xoá khỏi #{tên} |
-| MSG-07 | Popup | Lưu trữ #{tên}? Kênh sẽ chỉ đọc, vẫn tìm kiếm được. \[Huỷ\] \[Lưu trữ\] |
+| MSG-07 | Popup | Lưu trữ #{tên}? Kênh sẽ chỉ đọc, vẫn tìm thấy trong danh sách kênh. \[Huỷ\] \[Lưu trữ\] |
 | MSG-08 | Popup | Chuyển #{tên} thành kênh riêng tư? Không thể chuyển lại công khai. Chỉ thành viên hiện tại xem được lịch sử. \[Huỷ\] \[Chuyển\] |
 | MSG-09 | Màn đăng nhập | Tài khoản của bạn trong {workspace} đã bị vô hiệu hoá |
 | MSG-10 | Banner kênh | Kênh này đã được lưu trữ, bạn chỉ có thể đọc |

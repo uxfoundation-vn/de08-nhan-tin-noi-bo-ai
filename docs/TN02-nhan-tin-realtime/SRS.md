@@ -11,7 +11,7 @@
 | Mục tiêu | Gửi, nhận tin realtime trong kênh, tin nhắn trực tiếp và thread; file; sửa, xoá, reaction; trạng thái gửi, đã xem; hàng đợi ngoại tuyến; đồng bộ nhiều thiết bị |
 | Actor | Thành viên · Khách · App, Web · Cổng realtime · Dịch vụ tin nhắn · Kho file · Dịch vụ quét file |
 | Phạm vi | Soạn, gửi, nhận, thread, file, sửa, xoá, reaction, mốc đọc, đã xem, bản nháp, kết nối lại, lấy bù |
-| Ngoài phạm vi | Tin thoại, video, hẹn giờ gửi, mã hoá đầu cuối, chuyển tiếp tin |
+| Ngoài phạm vi | Tin thoại, video, hẹn giờ gửi, mã hoá đầu cuối, chuyển tiếp tin, tìm kiếm tin nhắn theo từ khoá |
 | Nền tảng | App iOS / Android, Web / Desktop `[giả định]` |
 | Figma | `[chưa có]` |
 

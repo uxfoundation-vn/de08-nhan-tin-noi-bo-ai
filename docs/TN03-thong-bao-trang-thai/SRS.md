@@ -33,7 +33,7 @@
 | BR-31 | **Sự kiện liên quan** tới user U với tin M trong hội thoại C (U ≠ người gửi, `can_view(U, C)`): `TRUC_TIEP` (C là tin nhắn trực tiếp có U), `MENTION` (M mention U), `MENTION_KENH` (@kênh, hoặc @here khi U online), `THREAD` (M trả lời thread U theo dõi), `MOI_TIN` (C đặt "Mọi tin") |
 | BR-32 | **Mức thông báo kênh**: `MOI_TIN`, `CHI_MENTION` (mặc định), `TAT`. `TAT` vẫn báo `MENTION` trực tiếp tên `[giả định]`, không báo `MENTION_KENH`. Tin nhắn trực tiếp mặc định bật, tắt được từng cuộc trò chuyện |
 | BR-33 | **Không báo** nếu U đang mở đúng hội thoại hoặc thread đó trên thiết bị đang ở trước và tin đã hiện trên màn |
-| BR-34 | **Chặn push** khi: trong giờ yên lặng, đang Tạm dừng, trạng thái Không làm phiền. Sự kiện vẫn vào trang Hoạt động và badge |
+| BR-34 | **Chặn push** khi: trong giờ yên lặng, đang Tạm dừng, trạng thái Không làm phiền. Sự kiện vẫn vào trang Hoạt động và badge. Hết chặn không gửi bù push cho sự kiện đã bị chặn |
 | BR-35 | **Giờ yên lặng**: danh sách khoảng theo ngày trong tuần, theo múi giờ U; mặc định 19:00–08:00 T2–T6, cả ngày T7, CN `[giả định]`. Tạm dừng: 30 phút, 1 giờ, 2 giờ, tới 08:00 hôm sau |
 | BR-36 | **Định tuyến thiết bị**: U có hoạt động (gõ, cuộn, chạm) trên máy tính trong 120 giây gần nhất → chỉ thông báo máy tính; sau 120 giây sự kiện chưa được đọc → push điện thoại. Không có máy tính đang hoạt động → push ngay |
 | BR-37 | **Gom thông báo**: sự kiện cùng hội thoại (hoặc thread) cho cùng U trong 60 giây gộp thành 1 thông báo "{n} tin mới"; cập nhật thông báo đang hiện thay vì tạo mới |
@@ -228,7 +228,7 @@ flowchart TD
 | **Mã** | **Điều kiện** | **Xử lý** |
 | --- | --- | --- |
 | A1 | Bật Không làm phiền kèm thời hạn | Trạng thái `KHONG_LAM_PHIEN`, chặn push (BR-34) |
-| A2 | Người nhận đang trong giờ yên lặng, tạm dừng hoặc Không làm phiền | Ô soạn hiện MSG-25; gửi bình thường thì người nhận thấy khi hết chặn |
+| A2 | Người nhận đang trong giờ yên lặng, tạm dừng hoặc Không làm phiền | Ô soạn hiện MSG-25; gửi bình thường thì tin vào Hoạt động và badge của người nhận, không có push bù khi hết chặn (BR-34) |
 | A3 | Người gửi chọn "Vẫn thông báo" | Người nhận cho phép và còn lượt trong ngày → push vượt chặn, ghi lượt |
 
 **Luồng lỗi**
@@ -330,7 +330,7 @@ sequenceDiagram
 
 | **ID** | **Nơi hiện** | **Nội dung (VI)** |
 | --- | --- | --- |
-| MSG-25 | Trên ô soạn | {Tên} đang {ngoài giờ làm việc / tạm dừng thông báo / không làm phiền}, sẽ nhận thông báo lúc {giờ}. \[Vẫn thông báo\] |
+| MSG-25 | Trên ô soạn | {Tên} đang {ngoài giờ làm việc / tạm dừng thông báo / không làm phiền} tới {giờ} và sẽ không nhận thông báo đẩy cho tin này. Tin vẫn nằm trong mục Hoạt động của họ. \[Vẫn thông báo\] |
 | MSG-26 | Toast | Bạn đã dùng hết lượt "Vẫn thông báo" cho {tên} hôm nay, hoặc {tên} đã tắt tính năng này |
 | MSG-27 | Push | {Người gửi} trong #{kênh}: {đoạn trích} |
 | MSG-28 | Push gộp | {n} tin mới trong #{kênh} |

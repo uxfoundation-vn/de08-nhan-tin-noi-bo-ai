@@ -58,7 +58,7 @@ Công ty 50–500 người dùng nhắn tin cho công việc. Vấn đề thư�
 | Người mới vào | Tìm lại bối cảnh, câu trả lời đã có |
 | Quản trị workspace | Mời, quản lý thành viên, kênh; kiểm soát dữ liệu và AI |
 
-Ngoài phạm vi cả đề: gọi thoại, video, chia sẻ màn hình; tích hợp ứng dụng bên ngoài (bot, webhook); kết nối nhiều workspace; tuân thủ lưu trữ pháp lý (eDiscovery); AI tự động trả lời thay người dùng; AI đọc nội dung file đính kèm (MVP chỉ tên file).
+Ngoài phạm vi cả đề: gọi thoại, video, chia sẻ màn hình; tìm kiếm tin nhắn theo từ khoá (chỉ có tìm kênh ở TN01 và AI hỏi đáp ở TN05); tích hợp ứng dụng bên ngoài (bot, webhook); kết nối nhiều workspace; tuân thủ lưu trữ pháp lý (eDiscovery); AI tự động trả lời thay người dùng; AI đọc nội dung file đính kèm (MVP chỉ tên file).
 
 ## Quy ước dùng chung
 

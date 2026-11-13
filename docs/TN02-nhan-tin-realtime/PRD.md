@@ -54,6 +54,7 @@ Nhắn tin là hoạt động chính của sản phẩm. Mỗi người dùng th
 - Hẹn giờ gửi tin, nhắc lại tin.
 - Mã hoá đầu cuối.
 - Chuyển tiếp tin sang hội thoại khác.
+- Tìm kiếm tin nhắn theo từ khoá; tìm lại nội dung cũ dùng AI hỏi đáp (TN05).
 - Đã xem trong kênh lớn (chỉ có ở tin nhắn trực tiếp).
 
 ## 4. Nguyên tắc sản phẩm
@@ -208,6 +209,8 @@ AC03: Tắt đã xem trong cài đặt → không gửi trạng thái của mìn
 | Pin, dữ liệu di động | Kết nối liên tục tốn pin | Ngắt khi app ở nền, dùng push |
 
 ## 10. Câu hỏi mở
+
+> Câu nào đã có giá trị ở mục 5 thì giá trị đó là **tạm chốt** `[giả định]` để dựng flow. Câu hỏi vẫn để mở cho đến khi PO xác nhận.
 
 - Có cho xoá tin của người khác với quyền quản trị không?
 - Giới hạn sửa 24 giờ có cần không?

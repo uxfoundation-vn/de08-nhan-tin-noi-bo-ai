@@ -188,7 +188,7 @@ AC03: Hết hạn tự xoá.
 
 User Story: Là thành viên, tôi muốn biết người nhận đang ngoài giờ trước khi nhắn để không làm phiền khi việc không gấp.
 
-AC01: Nhắn tin trực tiếp cho người đang trong giờ yên lặng → ô soạn hiện "{tên} đang ngoài giờ làm việc, sẽ nhận thông báo lúc {giờ}".
+AC01: Nhắn tin trực tiếp cho người đang trong giờ yên lặng → ô soạn hiện "{tên} đang ngoài giờ làm việc tới {giờ} và sẽ không nhận thông báo đẩy cho tin này"; tin vẫn vào mục Hoạt động của họ.
 
 AC02: Người gửi chọn "Vẫn thông báo" cho việc gấp, tối đa 3 lần mỗi ngày.
 
@@ -213,6 +213,8 @@ AC02: Người gửi chọn "Vẫn thông báo" cho việc gấp, tối đa 3 l�
 | Lộ trạng thái | Quản lý theo dõi giờ online của nhân viên | Không lưu lịch sử online; chỉ hiện trạng thái hiện tại |
 
 ## 10. Câu hỏi mở
+
+> Câu nào đã có giá trị ở mục 5 thì giá trị đó là **tạm chốt** `[giả định]` để dựng flow. Câu hỏi vẫn để mở cho đến khi PO xác nhận.
 
 - Kênh "Tắt" có báo khi bị mention trực tiếp tên không?
 - Có cho người dùng ẩn trạng thái online không?
